@@ -2,9 +2,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
-import {MdInputModule} from '@angular/material';
-
 import 'hammerjs';
+
+import {CoreModule} from './core/core.module';
 
 import {AppComponent} from './app.component';
 
@@ -14,10 +14,9 @@ import {AppComponent} from './app.component';
   ],
   imports: [
     BrowserAnimationsModule,
-    BrowserModule,
-    MdInputModule
+    BrowserModule
   ],
-  providers: [],
+  providers: [CoreModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {
