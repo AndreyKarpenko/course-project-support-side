@@ -7,10 +7,12 @@ import 'hammerjs';
 import {CoreModule} from './core/core.module';
 
 import {AppComponent} from './app.component';
+import {HeaderComponent} from './header/header.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserAnimationsModule,
