@@ -1,0 +1,22 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Run `npm install` and then `npm start` for a dev server. Navigate to `http://localhost:8000/`. The app will automatically reload if you change any of the source files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Riddlegun/course-project-support-side.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Riddlegun/course-project-support-side/issues"
+  },
+  "homepage": "https://github.com/Riddlegun/course-project-support-side#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
