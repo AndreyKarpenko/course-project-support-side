@@ -1,4 +1,6 @@
 # Back-end part
+Run `npm install`
+Navigate to `http://localhost:8000/`
 
 ## Development server
 
