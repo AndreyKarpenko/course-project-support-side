@@ -18,6 +18,9 @@
   "homepage": "https://github.com/Riddlegun/course-project-support-side#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "express": "^4.15.3"
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.0",
+    "socket.io": "^2.0.3"
   }
 }
