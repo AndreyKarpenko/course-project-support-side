@@ -1,20 +1,27 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-// var io = require('socket.io').listen(8000);
-// Если я правильно понял, то оскет будет слушать порт, который указан в его методе. Но пока у нас не готова вся логика чата, то я слушаю порт в 18 строке
-var io = require('socket.io');
-// var db = require('db');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 
+const db = require('./db');
 
-var app = express();
-app.use( bodyParser.json() );
+const app = express();
+const httpServer = http.Server(app);
+const io = socketIo(httpServer);
+
+app.use(bodyParser.json());
 app.use( bodyParser.urlencoded({extended: true}) );
+app.use(cookieParser());
 
-app.get('/', function (req, res, next) {
-    res.send('200');
-})
+app.get('/', (req, res, next) => {
+  res.send('200');
+});
 
-app.listen(8000, function () {
-    console.log('server is runned');
-})
+io.on('connection', (socket) => {
+  console.log('A user connected');
+});
+
+httpServer.listen(8000, () => {
+    console.log('Server is running');
+});

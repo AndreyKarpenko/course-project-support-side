@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://npmlover:dertanz85@ds127730.mlab.com:27730/myfirstdb_alfa');
+mongoose.connect('mongodb://localhost/test');
 
 module.exports = mongoose.connection;
