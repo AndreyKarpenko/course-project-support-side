@@ -4,6 +4,7 @@
   "description": "Run `npm install` and then `npm start` for a dev server. Navigate to `http://localhost:8000/`. The app will automatically reload if you change any of the source files",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,9 @@
   "homepage": "https://github.com/Riddlegun/course-project-support-side#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "express": "^4.15.3"
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "mongoose": "^4.10.8",
+    "socket.io": "^2.0.3"
   }
 }
