@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const path = require('path');
 
 // const db = require('./db');
 
@@ -14,15 +15,19 @@ app.use(bodyParser.json());
 app.use( bodyParser.urlencoded({extended: true}) );
 app.use(cookieParser());
 
-/*
+
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('*', (req, res, next) => {
-    res.sendFile(path.join(__dirname,'public','test.html'),(err) => {
+app.get('/', (req, res, next) => {
+    res.sendFile(path.join(__dirname,'public','temp','test.html'),(err) => {
         next(err);
     });
 });
-*/
+
+
+
 
 /*
 app.get('/', (req, res, next) => {
@@ -32,7 +37,7 @@ app.get('/', (req, res, next) => {
 
 app.use((req, res, next) => {
     if (req.url == '/'){
-        res.end("Hello");
+
     }else{
         next();
     }
