@@ -2,8 +2,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const http = require('http');
-const socketIo = require('socket.io');
 const path = require('path');
+const socketIo = require('socket.io');
 
 const db = require('./db');
 
@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+require('./api')(app, db);
 
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'public', 'support', 'index.html'), (err) => {
