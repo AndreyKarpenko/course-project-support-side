@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Dialog = new Schema({
-  clientId: Schema.Types.ObjectId,
+  // clientId: Schema.Types.ObjectId,
   clientEmail: String,
   clientName: String,
   clientLocation: {

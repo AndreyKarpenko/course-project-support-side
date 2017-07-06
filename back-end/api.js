@@ -1,6 +1,7 @@
 function initialize(app, db) {
   app.get('/api/operators', (req, res, next) => {
-    res.status(200).send('/api/operators');
+    const operators = db.collection('operators');
+    const dialogs = db.collection('dialogs');
   });
 
   // added another API methods here

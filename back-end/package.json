@@ -4,7 +4,8 @@
   "description": "Run `npm install` and then `npm start` for a dev server. Navigate to `http://localhost:8000/`. The app will automatically reload if you change any of the source files",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon server.js dev",
+    "start:prod": "nodemon server.js prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
