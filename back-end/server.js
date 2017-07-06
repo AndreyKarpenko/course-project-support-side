@@ -12,47 +12,31 @@ const httpServer = http.Server(app);
 const io = socketIo(httpServer);
 
 app.use(bodyParser.json());
-app.use( bodyParser.urlencoded({extended: true}) );
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-
-
 
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res, next) => {
-    res.sendFile(path.join(__dirname,'public','temp','test.html'),(err) => {
-        next(err);
-    });
+
+app.get('/client-chat.js', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'public', 'client-chat', 'chat-script.js'), (err) => {
+    next(err);
+  });
+});
+
+app.get('/client-chat.css', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'public', 'client-chat', 'chat-script.css'), (err) => {
+    next(err);
+  });
 });
 
 
-
-
-/*
-app.get('/', (req, res, next) => {
-  res.send('200');
+app.get('*', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'public', 'support', 'index.html'), (err) => {
+  next(err);
+  });
 });
-*/
-
-app.use((req, res, next) => {
-    if (req.url == '/'){
-
-    }else{
-        next();
-    }
-});
-
-app.use((req, res, next) => {
-    if (req.url != '/'){
-        res.end("Hello2");
-    }else{
-        next();
-    }
-});
-
-
-
 
 
 io.on('connection', (socket) => {
@@ -60,25 +44,6 @@ io.on('connection', (socket) => {
 });
 
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handler
-app.use((err, req, res, next) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});
-
-
 httpServer.listen(8000, () => {
-    console.log('Server is running');
+  console.log('Server is running');
 });
