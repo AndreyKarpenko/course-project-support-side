@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./api')(app, db);
+require('./api')(app);
 
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'public', 'support', 'index.html'), (err) => {
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
 });
 
 httpServer.listen(8000, () => {
-  console.log('Server is running');
+  console.log('Server: server is running');
 });
 
 httpServer.on('error', (err) => {

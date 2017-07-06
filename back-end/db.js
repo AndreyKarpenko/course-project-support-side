@@ -7,10 +7,12 @@ mongoose.connect(dbUrl);
 const db = mongoose.connection;
 
 db.on('error', () => {
-  console.error('There is problem with DB connection');
+  console.error('Database: there is problem with connection');
 });
 
 db.once('open', function() {
+  console.log('Database: connection established');
+
   // insert dummy data into DB, if ENV=dev
 
   if (process.argv[2] === 'dev') {
