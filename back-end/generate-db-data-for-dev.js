@@ -1,15 +1,12 @@
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
-
 const Customer = require('./models/customer');
 const Dialog = require('./models/dialog');
 const Operator = require('./models/operator');
 
-function initialize(db) {
-  flushCollections(Customer, Dialog, Operator, () => {
-    fillCustomerCollection(Customer, () => {
-      fillDialogCollection(Dialog, () => {
-        fillOperatorCollection(Operator, () => {
+function initialize() {
+  flushCollections(() => {
+    fillCustomerCollection(() => {
+      fillOperatorCollection(() => {
+        fillDialogCollection(() => {
           console.log('Database: dummy data generated');
         });
       });
@@ -17,7 +14,7 @@ function initialize(db) {
   });
 }
 
-function flushCollections(Customer, Dialog, Operator, callback) {
+function flushCollections(callback) {
   Customer.deleteMany({}, (err) => {
     if (err) errorHandler(err);
 
@@ -32,10 +29,9 @@ function flushCollections(Customer, Dialog, Operator, callback) {
   });
 }
 
-function fillCustomerCollection(Customer, callback) {
+function fillCustomerCollection(callback) {
   Customer.create({
-    _id: ObjectId('595e77b9e1f9381310b3e1b1'),
-    email: 'customer-mail@gmail.com',
+    email: 'customer1-mail@gmail.com',
     password: 'pass',
     name: 'Customer1',
   } , (err, result) => {
@@ -44,31 +40,189 @@ function fillCustomerCollection(Customer, callback) {
   });
 }
 
-function fillDialogCollection(Dialog, callback) {
-  // if (err) errorHandler(err);
-  callback();
+function fillDialogCollection(callback) {
+  Operator.find({}, (err, docs) => {
+    Dialog.create([{
+      clientEmail: 'client1-mail@gmail.com',
+      clientName: 'Client1',
+      clientLocation: {
+        lat: 202020,
+        lon: 303030
+      },
+      operatorId: docs[0]._id,
+      operatorName: docs[0].name,
+      startTime: Date.now() - 11111,
+      endTime: Date.now() - 10000,
+      messages: [
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 1100,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Good bye'
+        }
+      ]
+    },
+    {
+      clientEmail: 'client2-mail@gmail.com',
+      clientName: 'Client2',
+      clientLocation: {
+        lat: 202020,
+        lon: 303030
+      },
+      operatorId: docs[0]._id,
+      operatorName: docs[0].name,
+      startTime: Date.now() - 11111,
+      endTime: Date.now() - 10000,
+      messages: [
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 1100,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Good bye'
+        }
+      ]
+    },
+    {
+      clientEmail: 'client1-mail@gmail.com',
+      clientName: 'Client1',
+      clientLocation: {
+        lat: 202020,
+        lon: 303030
+      },
+      operatorId: docs[1]._id,
+      operatorName: docs[1].name,
+      startTime: Date.now() - 11111,
+      endTime: Date.now() - 10000,
+      messages: [
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 1100,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Good bye'
+        }
+      ]
+    },
+    {
+      clientEmail: 'client2-mail@gmail.com',
+      clientName: 'Client2',
+      clientLocation: {
+        lat: 202020,
+        lon: 303030
+      },
+      operatorId: docs[1]._id,
+      operatorName: docs[1].name,
+      startTime: Date.now() - 11111,
+      endTime: Date.now() - 10000,
+      messages: [
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Hello'
+        },
+        {
+          date: Date.now() - 1100,
+          role: 'client',
+          text: 'Hi'
+        },
+        {
+          date: Date.now() - 11000,
+          role: 'operator',
+          text: 'Good bye'
+        }
+      ]
+    }], (err, result) => {
+      if (err) errorHandler(err);
+      callback();
+    });
+  });
 }
 
-function fillOperatorCollection(Operator, callback) {
-  Operator.create([{
-    _id: ObjectId('312e77b9e7bb381319b3e1b1'),
-    email: 'operator-mail@gmail.com',
-    password: 'pass',
-    name: 'Operator1',
-    avatarUrl: 'url',
-    customerId: ObjectId('595e77b9e1f9381310b3e1b1'),
-  },
-  {
-    _id: ObjectId('123c77b9e7bb381319b3e2c2'),
-    email: 'operator2-mail@gmail.com',
-    password: 'pass',
-    name: 'Operator2',
-    avatarUrl: 'url',
-    customerId: ObjectId('595e77b9e1f9381310b3e1b1'),
-  }], (err, result) => {
-    if (err) errorHandler(err);
-    console.log(result);
-    callback();
+function fillOperatorCollection(callback) {
+  Customer.findOne({email: 'customer1-mail@gmail.com'}, (err, doc) => {
+    Operator.create([{
+      email: 'operator1-mail@gmail.com',
+      password: 'pass',
+      name: 'Operator1',
+      avatarUrl: 'https://avatars0.githubusercontent.com/u/1342004?v=3&s=200',
+      customerId: doc._id
+    },
+      {
+        email: 'operator2-mail@gmail.com',
+        password: 'pass',
+        name: 'Operator2',
+        avatarUrl: 'https://avatars0.githubusercontent.com/u/1342004?v=3&s=200',
+        customerId: doc._id
+      }], (err, result) => {
+      if (err) errorHandler(err);
+      callback();
+    });
   });
 }
 
