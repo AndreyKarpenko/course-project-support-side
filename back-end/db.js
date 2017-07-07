@@ -15,7 +15,7 @@ db.once('open', function() {
 
   // insert dummy data into DB, if ENV=dev
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV == 'development') {
     require('./generate-db-data-for-dev')(db);
   }
 });
