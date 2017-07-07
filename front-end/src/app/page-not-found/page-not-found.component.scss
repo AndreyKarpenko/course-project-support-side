@@ -8,7 +8,7 @@
 }
 
 .container {
-  width: 70%;
+  width: 60%;
 }
 
 h1 {
@@ -46,5 +46,17 @@ button {
 
   button:first-child {
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 543px) {
+  .container {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
