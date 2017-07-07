@@ -199,7 +199,6 @@ function fillDialogCollection(callback) {
       ]
     }], (err, result) => {
       if (err) errorHandler(err);
-      console.log(result);
       callback();
     });
   });

@@ -4,20 +4,23 @@ const Operator = require('./models/operator');
 
 function initialize(app) {
   app.get('/api/operators', (req, res, next) => {
-    Dialog.find({}, (err, dialogs) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Database error');
-      }
+    Dialog.find().lean().exec((err, dialogs) => {
+      if (err) next(err);
 
-      Operator.find({}, (err, operators) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Database error');
-        }
+      Operator.find().lean().exec((err, operators) => {
+        if (err) next(err);
+
+        operators.forEach((operator) => {
+          operator.dialogs = [];
+
+          dialogs.forEach((dialog) => {
+            if (dialog.operatorId.equals(operator._id)) {
+              operator.dialogs.push(dialog);
+            }
+          });
+        });
 
         res.status(200).send({
-          dialogs,
           operators
         });
       });
