@@ -13,9 +13,9 @@ db.on('error', () => {
 db.once('open', function() {
   console.log('Database: connection established');
 
-  // insert dummy data into DB, if ENV=dev
-
-  if (process.argv[2] === 'dev') {
+  // insert dummy data into DB, if app is running in dev mode
+  
+  if (process.env.NODE_ENV == 'development') {
     require('./generate-db-data-for-dev')(db);
   }
 });
