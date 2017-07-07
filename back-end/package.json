@@ -4,7 +4,8 @@
   "description": "Run `npm install` and then `npm start` for a dev server. Navigate to `http://localhost:8000/`. The app will automatically reload if you change any of the source files",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "cross-env NODE_ENV=development nodemon server.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +24,8 @@
     "express": "^4.15.3",
     "mongoose": "^4.10.8",
     "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.1"
   }
 }
