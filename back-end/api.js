@@ -7,9 +7,15 @@ function initialize(app) {
     Dialog.find({}, (err, dialogs) => {
       if (err) next(err);
 
-      res.status(200).send({
-        dialogs
-      });
+      res.status(200).send(dialogs);
+    });
+  });
+
+  app.get('/api/dialog/:id', (req, res, next) => {
+    Dialog.findOne({_id: req.params.id}, (err, doc) => {
+      if (err) next(err);
+
+      res.status(200).send(doc);
     });
   });
 
@@ -30,9 +36,7 @@ function initialize(app) {
           });
         });
 
-        res.status(200).send({
-          operators
-        });
+        res.status(200).send(operators);
       });
     });
   });
