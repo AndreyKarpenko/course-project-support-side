@@ -20,9 +20,7 @@ function initialize(app) {
           });
         });
 
-        res.status(200).send({
-          operators
-        });
+        res.status(200).send(operators);
       });
     });
   });
