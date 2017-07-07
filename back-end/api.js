@@ -24,7 +24,7 @@ function initialize(app) {
     });
   });
 
-  // added another API methods here
+  // add another API methods here
 }
 
 module.exports = initialize;

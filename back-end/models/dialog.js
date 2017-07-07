@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Dialog = new Schema({
-  clientId: {
+  /*clientId: {
     type: Schema.Types.ObjectId,
     required: true
-  },
+  },*/
   clientEmail: {
     type: String,
     required: true
