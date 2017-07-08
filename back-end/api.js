@@ -182,32 +182,27 @@ function getDialogs(query) {  // query: operatorId[] | operatorId
       Dialog.find({
         operatorId: { $in: query }
       }).lean().exec((err, dialogs) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (!dialogs.length) {
-          resolve(null);
-          return;
-        }
-
-        resolve(dialogs);
+        findResultsHandler(err, dialogs);
       });
     } else {
       Dialog.find({
         operatorId: query
       }).lean().exec((err, dialogs) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (!dialogs.length) {
-          resolve(null);
-          return;
-        }
-
-        resolve(dialogs);
+        findResultsHandler(err, dialogs);
       });
+    }
+
+    function findResultsHandler(err, dialogs) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (!dialogs.length) {
+        resolve(null);
+        return;
+      }
+
+      resolve(dialogs);
     }
   });
 }
