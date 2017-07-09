@@ -4,12 +4,9 @@ const Operator = require('./models/operator');
 
 function initialize(app) {
   app.get('/api/dialogs', (req, res, next) => {
-    checkAuth(req)
+    checkAuth(req, res)
       .then((customerId) => {
-        if (!customerId) {
-          res.status(401).send('Unauthorized');
-          return;
-        }
+        if (!customerId) return;
 
         getOperators(customerId)
           .then((operators) => {
@@ -47,9 +44,9 @@ function initialize(app) {
 
   app.get('/api/dialog/:id', (req, res, next) => {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
-      checkAuth(req, next)
+      checkAuth(req, res)
         .then((customerId) => {
-          if (!customerId) res.status(401).send('Unauthorized');
+          if (!customerId) return;
 
           Dialog.findById(req.params.id, (err, dialog) => {
             if (err) next(err);
@@ -70,12 +67,9 @@ function initialize(app) {
   });
 
   app.get('/api/operators', (req, res, next) => {
-    checkAuth(req, next)
+    checkAuth(req, res)
       .then((customerId) => {
-        if (!customerId) {
-          res.status(401).send('Unauthorized');
-          return;
-        }
+        if (!customerId) return;
 
         getOperators(customerId)
           .then((operators) => {
@@ -124,7 +118,7 @@ function initialize(app) {
   // add another API methods here
 }
 
-function checkAuth(req) {
+function checkAuth(req, res) {
   /*const token = req.cookies.token;
 
   return new Promise((resolve, reject) => {
@@ -134,9 +128,16 @@ function checkAuth(req) {
           reject(err);
           return;
         }
+        if (!customer) {
+          res.status(401).send('Unauthorized');
+          resolve(null);
+          return;
+        }
+
         resolve(customer._id);
       });
     } else {
+      res.status(401).send('Unauthorized');
       resolve(null);
     }
   });*/
@@ -150,6 +151,7 @@ function checkAuth(req) {
         return;
       }
       if (!customer) {
+        res.status(401).send('Unauthorized');
         resolve(null);
         return;
       }
