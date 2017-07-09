@@ -49,6 +49,7 @@ function fillDialogCollection(callback) {
         lat: 202020,
         lon: 303030
       },
+      operatorEmail: docs[0].email,
       operatorId: docs[0]._id,
       operatorName: docs[0].name,
       startTime: Date.now() - 11111,
@@ -88,6 +89,7 @@ function fillDialogCollection(callback) {
         lat: 202020,
         lon: 303030
       },
+      operatorEmail: docs[0].email,
       operatorId: docs[0]._id,
       operatorName: docs[0].name,
       startTime: Date.now() - 11111,
@@ -127,6 +129,7 @@ function fillDialogCollection(callback) {
         lat: 202020,
         lon: 303030
       },
+      operatorEmail: docs[1].email,
       operatorId: docs[1]._id,
       operatorName: docs[1].name,
       startTime: Date.now() - 11111,
@@ -166,6 +169,7 @@ function fillDialogCollection(callback) {
         lat: 202020,
         lon: 303030
       },
+      operatorEmail: docs[1].email,
       operatorId: docs[1]._id,
       operatorName: docs[1].name,
       startTime: Date.now() - 11111,

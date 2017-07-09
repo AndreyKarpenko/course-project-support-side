@@ -10,13 +10,17 @@ const Dialog = new Schema({
     type: String,
     required: true
   },
+  clientLocation: {
+    lat: Number,
+    lon: Number
+  },
   clientName: {
     type: String,
     required: true
   },
-  clientLocation: {
-    lat: Number,
-    lon: Number
+  operatorEmail: {
+    type: String,
+    required: true
   },
   operatorId: {
     type: Schema.Types.ObjectId,

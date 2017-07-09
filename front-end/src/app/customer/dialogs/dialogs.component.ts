@@ -7,9 +7,12 @@ import {StorageService} from '../../core/storage.service';
   styleUrls: ['./dialogs.component.scss']
 })
 export class DialogsComponent implements OnInit {
+  dialogs;
+
   constructor(private storage: StorageService) {}
 
   ngOnInit() {
-    console.log(this.storage.customerInfo.dialogs);
+    this.dialogs = this.storage.customerInfo.dialogs;
+    console.log(this.dialogs);
   }
 }

@@ -1,1 +1,20 @@
-<h1>Dialogs</h1>
+<p>filter</p>
+
+<div class="dialogs">
+  <md-card *ngFor="let dialog of dialogs" class="dialog">
+    <div class="operator-info">
+      <p class="name">{{dialog.operatorName}}</p>
+      <p class="email">{{dialog.operatorEmail}}</p>
+    </div>
+    <div class="client-info">
+      <p class="client-name">{{dialog.clientName}}</p>
+      <p class="email">{{dialog.clientEmail}}</p>
+      <div *ngIf="dialog.clientLocation" class="location">
+        <p class="title">Client location</p>
+        <p class="lat">Lat: {{dialog.clientLocation.lat}}</p>
+        <p class="lon">Lon: {{dialog.clientLocation.lon}}</p>
+      </div>
+    </div>
+    <p class="dialog-start-time">{{dialog.startTime | date:'short'}}</p>
+  </md-card>
+</div>
