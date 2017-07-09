@@ -20,18 +20,16 @@ function initialize(app) {
               operatorIds.push(operator._id);
             });
 
-            getDialogs(operatorIds)
-              .then((dialogs) => {
-                if (!dialogs) {
-                  res.status(404).send('Not found');
-                  return;
-                }
+            return getDialogs(operatorIds);
+          })
+          .then((result) => {
+            if (!result) return;
+            if (!result.dialogs) {
+              res.status(404).send('Not found');
+              return;
+            }
 
-                res.status(200).send(dialogs);
-              })
-              .catch((err) => {
-                next(err);
-              });
+            res.status(200).send(result.dialogs);
           })
           .catch((err) => {
             next(err);
@@ -83,28 +81,30 @@ function initialize(app) {
               operatorIds.push(operator._id);
             });
 
-            getDialogs(operatorIds)
-              .then((dialogs) => {
-                if (!dialogs) {
-                  res.status(200).send(operators);
-                  return;
+            return getDialogs(operatorIds, operators);
+          })
+          .then((result) => {
+            if (!result) return;
+
+            const dialogs = result.dialogs;
+            const operators = result.operators;
+
+            if (!dialogs) {
+              res.status(200).send(operators);
+              return;
+            }
+
+            operators.forEach((operator) => {
+              operator.dialogs = [];
+
+              dialogs.forEach((dialog) => {
+                if (dialog.operatorId.equals(operator._id)) {
+                  operator.dialogs.push(dialog);
                 }
-
-                operators.forEach((operator) => {
-                  operator.dialogs = [];
-
-                  dialogs.forEach((dialog) => {
-                    if (dialog.operatorId.equals(operator._id)) {
-                      operator.dialogs.push(dialog);
-                    }
-                  });
-                });
-
-                res.status(200).send(operators);
-              })
-              .catch((err) => {
-                next(err);
               });
+            });
+
+            res.status(200).send(operators);
           })
           .catch((err) => {
             next(err);
@@ -112,7 +112,7 @@ function initialize(app) {
       })
       .catch((err) => {
         next(err);
-      });
+      })
   });
 
   // add another API methods here
@@ -178,7 +178,7 @@ function getOperators(customerId) {
   });
 }
 
-function getDialogs(query) {  // query: operatorId[] | operatorId
+function getDialogs(query, operators) {  // query: operatorId[] | operatorId
   return new Promise((resolve, reject) => {
     if (Array.isArray(query)) {
       Dialog.find({
@@ -200,11 +200,14 @@ function getDialogs(query) {  // query: operatorId[] | operatorId
         return;
       }
       if (!dialogs.length) {
-        resolve(null);
+        resolve({
+          dialogs: null,
+          operators
+        });
         return;
       }
 
-      resolve(dialogs);
+      resolve({ dialogs, operators });
     }
   });
 }
