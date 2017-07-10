@@ -1,25 +1,46 @@
-<div>
-  <p class="title">Filters</p>
-  <p>by operator email</p>
-  <p>by client email</p>
-  <p>by dialog date</p>
-</div>
-
 <p *ngIf="!dialogs" class="no-dialogs">
   There are no dialogs yet. Come back later
 </p>
 
-<div *ngIf="dialogs" class="dialogs">
-  <md-card *ngFor="let dialog of dialogs"
-           [routerLink]="['/customer/dialogs/', dialog._id]" class="dialog">
-    <div class="operator-info">
-      <p class="name">{{dialog.operatorName}}</p>
-      <p class="email">{{dialog.operatorEmail}}</p>
+<div *ngIf="dialogs" class="dialogs-wrapper">
+  <div class="filters">
+    <p class="title">Filters</p>
+
+    <div class="controls">
+      <div *ngIf="operators">
+        <md-select [ngModel]="null" (ngModelChange)="applyOperatorFilter($event)"
+                   placeholder="by operator email">
+          <md-option *ngFor="let operator of operators" [value]="operator.email">
+            <span *ngIf="operator.email" class="email">{{operator.email}}</span>
+            <span class="name">{{operator.name}}</span>
+          </md-option>
+        </md-select>
+      </div>
+
+      <div *ngIf="clients">
+        <md-select [ngModel]="null" (ngModelChange)="applyClientFilter($event)"
+                   placeholder="by client email">
+          <md-option *ngFor="let client of clients" [value]="client.email">
+            <span *ngIf="client.email" class="email">{{client.email}}</span>
+            <span class="name">{{client.name}}</span>
+          </md-option>
+        </md-select>
+      </div>
     </div>
-    <div class="client-info">
-      <p class="name">{{dialog.clientName}}</p>
-      <p class="email">{{dialog.clientEmail}}</p>
-    </div>
-    <p class="dialog-start-time">{{dialog.startTime | date:'short'}}</p>
-  </md-card>
+  </div>
+
+  <div class="dialogs">
+    <md-card *ngFor="let dialog of filteredDialogs"
+             [routerLink]="['/customer/dialogs/', dialog._id]" class="dialog">
+      <div class="operator-info">
+        <p class="name">{{dialog.operatorName}}</p>
+        <p class="email">{{dialog.operatorEmail}}</p>
+      </div>
+      <div class="client-info">
+        <p class="name">{{dialog.clientName}}</p>
+        <p class="email">{{dialog.clientEmail}}</p>
+      </div>
+      <p class="dialog-start-time">{{dialog.startTime | date:'short'}}</p>
+    </md-card>
+  </div>
 </div>

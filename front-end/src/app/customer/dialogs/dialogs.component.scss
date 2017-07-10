@@ -1,3 +1,30 @@
+.filters {
+  margin-bottom: 50px;
+
+  .title {
+    text-align: center;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+md-select:first-of-type {
+  margin-right: 40px;
+  margin-bottom: 40px;
+}
+
+md-option {
+  .email {
+    padding-right: 5px;
+    border-right: 2px solid #000;
+  }
+}
+
 .dialogs {
   display: flex;
   flex-wrap: wrap;
@@ -39,5 +66,15 @@
   .dialog {
     width: 100%;
     margin: 0 15px 40px 15px;
+  }
+
+  .filters .controls {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+
+  md-select:first-of-type {
+    margin-right: 0;
   }
 }
