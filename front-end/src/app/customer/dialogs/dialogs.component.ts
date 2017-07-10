@@ -13,6 +13,5 @@ export class DialogsComponent implements OnInit {
 
   ngOnInit() {
     this.dialogs = this.storage.customerInfo.dialogs;
-    console.log(this.dialogs);
   }
 }

@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {MdCardModule} from '@angular/material';
+import {RouterModule} from '@angular/router';
 
 import {DialogsComponent} from './dialogs.component';
 
@@ -8,7 +9,8 @@ import {DialogsComponent} from './dialogs.component';
   declarations: [DialogsComponent],
   imports: [
     CommonModule,
-    MdCardModule
+    MdCardModule,
+    RouterModule
   ]
 })
 export class DialogsModule {

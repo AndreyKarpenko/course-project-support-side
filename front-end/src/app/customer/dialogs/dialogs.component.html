@@ -1,19 +1,24 @@
-<p>filter</p>
+<div>
+  <p class="title">Filters</p>
+  <p>by operator email</p>
+  <p>by client email</p>
+  <p>by dialog date</p>
+</div>
 
-<div class="dialogs">
-  <md-card *ngFor="let dialog of dialogs" class="dialog">
+<p *ngIf="!dialogs" class="no-dialogs">
+  There are no dialogs yet. Come back later
+</p>
+
+<div *ngIf="dialogs" class="dialogs">
+  <md-card *ngFor="let dialog of dialogs"
+           [routerLink]="['/customer/dialogs/', dialog._id]" class="dialog">
     <div class="operator-info">
       <p class="name">{{dialog.operatorName}}</p>
       <p class="email">{{dialog.operatorEmail}}</p>
     </div>
     <div class="client-info">
-      <p class="client-name">{{dialog.clientName}}</p>
+      <p class="name">{{dialog.clientName}}</p>
       <p class="email">{{dialog.clientEmail}}</p>
-      <div *ngIf="dialog.clientLocation" class="location">
-        <p class="title">Client location</p>
-        <p class="lat">Lat: {{dialog.clientLocation.lat}}</p>
-        <p class="lon">Lon: {{dialog.clientLocation.lon}}</p>
-      </div>
     </div>
     <p class="dialog-start-time">{{dialog.startTime | date:'short'}}</p>
   </md-card>
