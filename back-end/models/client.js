@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Client = new Schema({
-  clientEmail: {
+  email: {
     type: String,
     required: true,
     unique: true
   },
-  clientName: {
+  name: {
     type: String,
     required: true
   },
-  clientLocation: {
+  location: {
     lat: Number,
     lon: Number
   }

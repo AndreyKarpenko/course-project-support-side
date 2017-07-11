@@ -15,8 +15,8 @@ export class DialogsResolver implements Resolve<any> {
     if (this.storage.customerInfo.dialogs) return true;
 
     return this.Api.getDialogs()
-      .then((data) => {
-        this.storage.customerInfo.dialogs = data;
+      .then((dialogs) => {
+        this.storage.customerInfo.dialogs = dialogs;
         return true;
       })
       .catch((err) => {

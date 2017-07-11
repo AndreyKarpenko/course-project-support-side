@@ -3,30 +3,32 @@
 </p>
 
 <div *ngIf="dialogs" class="dialogs-wrapper">
+  <div class="refresh-block">
+    <button md-button *ngIf="!filtersForm.disabled"
+            (click)="refreshDialogs();">Refresh dialogs</button>
+    <md-spinner *ngIf="filtersForm.disabled"></md-spinner>
+  </div>
+
   <div class="filters">
     <p class="title">Filters</p>
 
-    <div class="controls">
-      <div *ngIf="operators">
-        <md-select [ngModel]="null" (ngModelChange)="applyOperatorFilter($event)"
-                   placeholder="by operator email">
-          <md-option *ngFor="let operator of operators" [value]="operator.email">
-            <span *ngIf="operator.email" class="email">{{operator.email}}</span>
-            <span class="name">{{operator.name}}</span>
-          </md-option>
-        </md-select>
-      </div>
+    <form [formGroup]="filtersForm" class="controls">
+      <md-select formControlName="operators" (ngModelChange)="applyOperatorFilter($event)"
+                 placeholder="by operator email">
+        <md-option *ngFor="let operator of operators" [value]="operator.email">
+          <span *ngIf="operator.email" class="email">{{operator.email}}</span>
+          <span class="name">{{operator.name}}</span>
+        </md-option>
+      </md-select>
 
-      <div *ngIf="clients">
-        <md-select [ngModel]="null" (ngModelChange)="applyClientFilter($event)"
-                   placeholder="by client email">
-          <md-option *ngFor="let client of clients" [value]="client.email">
-            <span *ngIf="client.email" class="email">{{client.email}}</span>
-            <span class="name">{{client.name}}</span>
-          </md-option>
-        </md-select>
-      </div>
-    </div>
+      <md-select formControlName="clients" (ngModelChange)="applyClientFilter($event)"
+                 placeholder="by client email">
+        <md-option *ngFor="let client of clients" [value]="client.email">
+          <span *ngIf="client.email" class="email">{{client.email}}</span>
+          <span class="name">{{client.name}}</span>
+        </md-option>
+      </md-select>
+    </form>
   </div>
 
   <div class="dialogs">

@@ -1,7 +1,8 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {MdCardModule, MdSelectModule} from '@angular/material';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MdButtonModule, MdCardModule, MdProgressSpinnerModule,
+        MdSelectModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 
 import {DialogsComponent} from './dialogs.component';
@@ -11,8 +12,11 @@ import {DialogsComponent} from './dialogs.component';
   imports: [
     CommonModule,
     FormsModule,
+    MdButtonModule,
     MdCardModule,
+    MdProgressSpinnerModule,
     MdSelectModule,
+    ReactiveFormsModule,
     RouterModule
   ]
 })

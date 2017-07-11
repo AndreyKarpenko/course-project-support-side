@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
+import {ApiService} from '../../core/api.service';
 import {StorageService} from '../../core/storage.service';
 
 @Component({
@@ -13,10 +15,15 @@ export class DialogsComponent implements OnInit {
     client: null,
     operator: null
   };
+  filtersForm: FormGroup;
   filteredDialogs: any[];
   operators : any[];
 
-  constructor(private storage: StorageService) {}
+  constructor(
+    private Api: ApiService,
+    private formBuilder: FormBuilder,
+    private storage: StorageService
+  ) {}
 
   ngOnInit() {
     this.dialogs = this.storage.customerInfo.dialogs;
@@ -27,6 +34,13 @@ export class DialogsComponent implements OnInit {
       prepandWithNullValue(this.operators);
       this.clients = gatherUniqueItems(this.dialogs, 'clientEmail', 'clientName');
       prepandWithNullValue(this.clients);
+
+      if (!this.filtersForm) {  //first ngOnInit call
+        this.filtersForm = this.formBuilder.group({
+          clients: null,
+          operators: null,
+        });
+      }
     }
 
     function gatherUniqueItems(source: any[], email: string, name: string): any[] {
@@ -89,5 +103,20 @@ export class DialogsComponent implements OnInit {
 
       if (matchedFilters === expectedMatches) return dialog;
     });
+  }
+
+  refreshDialogs() {
+    this.filtersForm.disable();
+
+    this.Api.getDialogs()
+      .then((dialogs) => {
+        this.storage.customerInfo.dialogs = dialogs;
+        this.ngOnInit();
+        this.filtersForm.reset();
+        this.filtersForm.enable();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

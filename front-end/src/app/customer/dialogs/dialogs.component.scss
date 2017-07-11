@@ -1,3 +1,15 @@
+.refresh-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+
+  md-spinner {
+    width: 35px;
+    height: 35px;
+  }
+}
+
 .filters {
   margin-bottom: 50px;
 
@@ -9,7 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
