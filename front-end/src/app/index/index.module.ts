@@ -3,6 +3,8 @@ import {NgModule} from '@angular/core';
 import {MdButtonModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 
+import {SigninModule} from '../signin/signin.module';
+
 import {IndexComponent} from './index.component';
 
 @NgModule({
@@ -10,7 +12,8 @@ import {IndexComponent} from './index.component';
   imports: [
     CommonModule,
     MdButtonModule,
-    RouterModule
+    RouterModule,
+    SigninModule
   ]
 })
 export class IndexModule {

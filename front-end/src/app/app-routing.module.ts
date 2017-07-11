@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {IndexComponent} from './index/index.component';
 import {OperatorsComponent} from './operator/operator.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {SigninComponent} from './signin/signin.component';
+import {SigninContainerComponent} from './signin/signin-container.component';
 import {SignoutComponent} from './signout/signout.component';
 import {SignupComponent} from './signup/signup.component';
 
@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'signin',
-    component: SigninComponent
+    component: SigninContainerComponent
   },
   {
     path: 'signout',
