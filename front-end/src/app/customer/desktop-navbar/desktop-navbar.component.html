@@ -1,10 +1,14 @@
 <nav>
   <button routerLink="/customer/home" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           md-button>Home</button>
   <button routerLink="/customer/operators" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           md-button>Operators</button>
   <button routerLink="/customer/dialogs" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           md-button>Dialogs</button>
   <button routerLink="/customer/payment" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           md-button>Payment</button>
 </nav>

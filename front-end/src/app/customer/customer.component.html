@@ -1,19 +1,11 @@
 <md-sidenav-container>
   <md-sidenav #sidenav>
-    <nav class="sidenav-content">
-      <button routerLink="/customer/home" routerLinkActive="active"
-              (click)="sidenav.close()" md-button>Home</button>
-      <button routerLink="/customer/operators" routerLinkActive="active"
-              (click)="sidenav.close()" md-button>Operators</button>
-      <button routerLink="/customer/dialogs" routerLinkActive="active"
-              (click)="sidenav.close()" md-button>Dialogs</button>
-      <button routerLink="/customer/payment" routerLinkActive="active"
-              (click)="sidenav.close()" md-button>Payment</button>
-    </nav>
+    <customer-mobile-navbar [sidenav]="sidenav"></customer-mobile-navbar>
   </md-sidenav>
 
-  <customer-navbar></customer-navbar>
-  <button md-button (click)="sidenav.open()">Open sidenav</button>
+  <customer-desktop-navbar></customer-desktop-navbar>
+  <button (click)="sidenav.open()" md-button
+          class="toggle-sidenav">Open sidenav</button>
 
   <router-outlet></router-outlet>
 </md-sidenav-container>
