@@ -1,6 +1,8 @@
 const Customer = require('./models/customer');
 const Dialog = require('./models/dialog');
 const Operator = require('./models/operator');
+const sha1 = require('sha1');
+
 
 function initialize(app) {
   app.get('/api/dialogs', (req, res, next) => {
@@ -115,43 +117,54 @@ function initialize(app) {
       })
   });
 
-  app.post('/api/register', (req, res) => {
-    if(!req.body.email){
-      res.json({success: false, message:'Provide e-mail'});
-    }else{
+  app.post('/api/signup', (req, res) => {
+    if(req.body){
+      if(!req.body.email){
+        res.status(400).send('Bad request');
+      }else{
         if(!req.body.name){
-            res.json({success: false, message: 'Provide username'});
+          res.status(400).send('Bad request');
         }else {
-            if(!req.body.password){
-                res.json({success: false, message: 'Provide password'});
-            }else{
-                let customer = new Customer({
-                    email: req.body.email.toLowerCase(),
-                    password: req.body.password,
-                    name: req.body.name.toLowerCase()
-                });
-                customer.create((err) => {
-                    if(err){
-                        if(err.code === 11000){
-                            res.json({success: false, message: 'User or email already exist ' + err});
-                        }else {
-                            if(err.errors){
-                                if(err.errors.email){
-                                    res.json({success: false, message: err.errors.email.message})
-                                }
-                            }else{
-                                res.json({success: false, message: 'Could not save. Error: ', err
-                                });
-                            }
-                        }
+          if(!req.body.password){
+            res.status(400).send('Bad request');
+          }else{
+            let customer = new Customer({
+            email: req.body.email.toLowerCase(),
+            password: req.body.password,
+            name: req.body.name.toLowerCase(),
+            token: sha1(this.email + 'ApriorIT' + new Date())
+            });
+            Customer.create(customer, (err) => {
+              if(err){
+                if(err.code === 11000){
+                  res.status(500).send('Internal Server Error1');
+                }else {
+                  if(err.errors){
+                    if(err.errors.email){
+                      res.status(500).send('Internal Server Error2');
                     }else {
-                        res.json({success: true, message: 'User save'});
+                      if(err.errors.name){
+                        res.status(500).send('Internal Server Error3');
+                      }else {
+                        if(err.errors.password){
+                          res.status(500).send('Internal Server Error4');
+                        }
+                      }
                     }
-                })
-            }
+                  }else{
+                    res.status(500).send('Internal Server Error5');
+                  }
+                }
+              }else {
+                res.status(200).send('OK');
+              }
+            })
+          }
         }
+      }
     }
   });
+
     // add another API methods here
 }
 

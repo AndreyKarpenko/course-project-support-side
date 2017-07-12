@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const dbUrl = 'mongodb://supportchatserver:Hd46Sjeq739f9910zP@ds143532.mlab.com:43532/supportchat';
-//const dbUrl = 'mongodb://localhost:27017/mean-angular-2';
-
+//const dbUrl = 'mongodb://supportchatserver:Hd46Sjeq739f9910zP@ds143532.mlab.com:43532/supportchat';
+const dbUrl = 'mongodb://localhost:27017/mean-angular-2';
 mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
