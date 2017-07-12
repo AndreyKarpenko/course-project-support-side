@@ -115,12 +115,12 @@ function initialize(app) {
       })
   });
 
-  app.get('/api/user-role', (req, res, next) => {
+  app.get('/api/user', (req, res, next) => {
     checkAuth(req, res)
       .then((customer) => {
         if (!customer) return;
 
-        res.status(200).send({role: customer.role});
+        res.status(200).send(customer);
       })
       .catch((err) => {
         next(err);
