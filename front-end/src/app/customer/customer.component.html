@@ -4,8 +4,8 @@
   </md-sidenav>
 
   <customer-desktop-navbar></customer-desktop-navbar>
-  <button (click)="sidenav.open()" md-button
-          class="toggle-sidenav">Open sidenav</button>
+  <img src="../../assets/hamburger-menu-button.svg" alt="Hamburger menu"
+       (click)="sidenav.open()" class="toggle-sidenav">
 
   <router-outlet></router-outlet>
 </md-sidenav-container>
