@@ -7,26 +7,31 @@ const Customer = new Schema({
     required: true,
     unique: true
   },
-  password: {
-    type: String,
-    required: true
-  },
-  token: {
-    type: String,
-    unique: true,
-    sparse: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
   isActive: {
     type: Boolean,
     required: true,
     default: false
   },
+  name: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
   payments: {
     endDate: Number
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'customer'
+  },
+  token: {
+    type: String,
+    unique: true,
+    sparse: true
   }
 });
 

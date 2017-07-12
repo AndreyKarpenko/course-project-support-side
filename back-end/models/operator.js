@@ -2,29 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Operator = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  token: {
-    type: String,
-    unique: true,
-    sparse: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  isActive: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
   avatarUrl: {
     type: String,
     required: true
@@ -32,6 +9,34 @@ const Operator = new Schema({
   customerId: {
     type: Schema.Types.ObjectId,
     required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'operator'
+  },
+  token: {
+    type: String,
+    unique: true,
+    sparse: true
   }
 });
 
