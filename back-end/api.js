@@ -130,7 +130,7 @@ function initialize(app) {
                     password: req.body.password,
                     name: req.body.name.toLowerCase()
                 });
-                customer.save((err) => {
+                customer.create((err) => {
                     if(err){
                         if(err.code === 11000){
                             res.json({success: false, message: 'User or email already exist ' + err});
