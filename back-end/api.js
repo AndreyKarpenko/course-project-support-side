@@ -115,7 +115,44 @@ function initialize(app) {
       })
   });
 
-  // add another API methods here
+  app.post('/api/register', (req, res) => {
+    if(!req.body.email){
+      res.json({success: false, message:'Provide e-mail'});
+    }else{
+        if(!req.body.name){
+            res.json({success: false, message: 'Provide username'});
+        }else {
+            if(!req.body.password){
+                res.json({success: false, message: 'Provide password'});
+            }else{
+                let customer = new Customer({
+                    email: req.body.email.toLowerCase(),
+                    password: req.body.password,
+                    name: req.body.name.toLowerCase()
+                });
+                customer.save((err) => {
+                    if(err){
+                        if(err.code === 11000){
+                            res.json({success: false, message: 'User or email already exist ' + err});
+                        }else {
+                            if(err.errors){
+                                if(err.errors.email){
+                                    res.json({success: false, message: err.errors.email.message})
+                                }
+                            }else{
+                                res.json({success: false, message: 'Could not save. Error: ', err
+                                });
+                            }
+                        }
+                    }else {
+                        res.json({success: true, message: 'User save'});
+                    }
+                })
+            }
+        }
+    }
+  });
+    // add another API methods here
 }
 
 function checkAuth(req, res) {
