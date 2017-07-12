@@ -7,12 +7,14 @@ import {HomeModule} from './home/home.module';
 import {OperatorsModule} from './operators/operators.module';
 
 import {CustomerComponent} from './customer.component';
-import {NavbarComponent} from './navbar/navbar.component';
+import {DesktopNavbarComponent} from './desktop-navbar/desktop-navbar.component';
+import {MobileNavbarComponent} from './mobile-navbar/mobile-navbar.component';
 
 @NgModule({
   declarations: [
     CustomerComponent,
-    NavbarComponent
+    DesktopNavbarComponent,
+    MobileNavbarComponent
   ],
   imports: [
     MdButtonModule,
