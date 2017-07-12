@@ -119,48 +119,28 @@ function initialize(app) {
 
   app.post('/api/signup', (req, res) => {
     if(req.body){
-      if(!req.body.email){
-        res.status(400).send('Bad request');
-      }else{
-        if(!req.body.name){
-          res.status(400).send('Bad request');
-        }else {
-          if(!req.body.password){
-            res.status(400).send('Bad request');
-          }else{
-            let customer = new Customer({
-            email: req.body.email.toLowerCase(),
-            password: req.body.password,
-            name: req.body.name.toLowerCase(),
-            token: sha1(this.email + 'ApriorIT' + new Date())
-            });
-            Customer.create(customer, (err) => {
-              if(err){
-                if(err.code === 11000){
-                  res.status(500).send('Internal Server Error1');
-                }else {
-                  if(err.errors){
-                    if(err.errors.email){
-                      res.status(500).send('Internal Server Error2');
-                    }else {
-                      if(err.errors.name){
-                        res.status(500).send('Internal Server Error3');
-                      }else {
-                        if(err.errors.password){
-                          res.status(500).send('Internal Server Error4');
-                        }
-                      }
-                    }
-                  }else{
-                    res.status(500).send('Internal Server Error5');
-                  }
-                }
-              }else {
-                res.status(200).send('OK');
+      if(!req.body.email || !req.body.name || !req.body.password){
+        res.status(400).send('Filed is empty');
+      } else {
+        let customer = new Customer({
+          email: req.body.email.toLowerCase(),
+          password: req.body.password,
+          name: req.body.name.toLowerCase(),
+          token: sha1(this.email + 'ApriorIT' + new Date())
+        });
+        Customer.create(customer, (err) => {
+          if(err){
+            if(err.code === 11000){
+              res.status(500).json({status: false, message: 'Email is already exist'});
+            } else {
+              if(err.errors.email || err.errors.name || err.errors.password) {
+                res.status(500).send('Invalid field');
               }
-            })
+            }
+          } else {
+            res.status(200).send({status:true, message:'Successfull register'});
           }
-        }
+        })
       }
     }
   });
