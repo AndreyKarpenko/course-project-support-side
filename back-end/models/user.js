@@ -20,7 +20,7 @@ const Operator = new Schema({
     type: String,
     required: true,
     unique: true,
-    match: /^(\w|-)+@\w+\.[a-zA-Z]+$/i,
+    match: /^(\w|-)+@\w+(\.[a-zA-Z]+)+$/i,
     minlength: 5,
     maxlength: 35
   },
