@@ -7,13 +7,18 @@ const Client = new Schema({
     required: true,
     unique: true
   },
+  location: {
+    lat: Number,
+    lon: Number
+  },
   name: {
     type: String,
     required: true
   },
-  location: {
-    lat: Number,
-    lon: Number
+  role: {
+    type: String,
+    required: true,
+    default: 'client'
   }
 });
 

@@ -32,7 +32,7 @@ function flushCollections(callback) {
 function fillCustomerCollection(callback) {
   Customer.create({
     email: 'customer1-mail@gmail.com',
-    password: 'pass',
+    password: 'password123456',
     name: 'Customer1',
   } , (err, result) => {
     if (err) errorHandler(err);

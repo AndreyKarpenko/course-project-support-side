@@ -6,13 +6,12 @@ import {DialogsComponent} from './dialogs/dialogs.component';
 import {HomeComponent} from './home/home.component';
 import {OperatorsComponent} from './operators/operators.component';
 
-import {AuthGuardService} from '../auth-guard.service';
+import {CustomerAuthGuardService} from './customer-auth-guard.service';
 import {DialogsResolver} from './dialogs/dialogs-resolver.service';
-
 const routes: Routes = [
   {
     path: 'customer',
-    canActivate: [AuthGuardService],
+    canActivate: [CustomerAuthGuardService],
     component: CustomerComponent,
     children: [
       {
@@ -58,7 +57,10 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [DialogsResolver]
+  providers: [
+    CustomerAuthGuardService,
+    DialogsResolver
+  ]
 })
 export class CustomerRoutingModule {
 }

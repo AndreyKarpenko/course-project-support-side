@@ -32,6 +32,13 @@ export class ApiService {
     // ...
   }
 
+  getUserRole() {
+    return this.http.get(serverUrl + '/api/user')
+      .toPromise()
+      .then(this.extractData)
+      .catch(this.handleError);
+  }
+
   postCustomer(object) {
     // ...
   }

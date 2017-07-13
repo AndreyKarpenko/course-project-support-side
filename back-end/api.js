@@ -1,14 +1,16 @@
 const Customer = require('./models/customer');
 const Dialog = require('./models/dialog');
 const Operator = require('./models/operator');
+const sha1 = require('sha1');
+
 
 function initialize(app) {
   app.get('/api/dialogs', (req, res, next) => {
     checkAuth(req, res)
-      .then((customerId) => {
-        if (!customerId) return;
+      .then((customer) => {
+        if (!customer) return;
 
-        getOperators(customerId)
+        getOperators(customer._id)
           .then((operators) => {
             if (!operators) {
               res.status(404).send('Not found');
@@ -43,8 +45,8 @@ function initialize(app) {
   app.get('/api/dialog/:id', (req, res, next) => {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
       checkAuth(req, res)
-        .then((customerId) => {
-          if (!customerId) return;
+        .then((customer) => {
+          if (!customer) return;
 
           Dialog.findById(req.params.id, (err, dialog) => {
             if (err) next(err);
@@ -66,10 +68,10 @@ function initialize(app) {
 
   app.get('/api/operators', (req, res, next) => {
     checkAuth(req, res)
-      .then((customerId) => {
-        if (!customerId) return;
+      .then((customer) => {
+        if (!customer) return;
 
-        getOperators(customerId)
+        getOperators(customer._id)
           .then((operators) => {
             if (!operators) {
               res.status(404).send('Not found');
@@ -114,8 +116,51 @@ function initialize(app) {
         next(err);
       })
   });
+  
+  app.get('/api/user', (req, res, next) => {
+    checkAuth(req, res)
+      .then((customer) => {
+        if (!customer) return;
 
-  // add another API methods here
+        res.status(200).send(customer);
+      })
+      .catch((err) => {
+        next(err);
+      })
+  });
+  
+  app.post('/api/signup', (req, res, next) => {
+    if (req.body) {
+      if (!req.body.email || !req.body.name || !req.body.password) {
+        res.status(400).send('Filed is empty');
+      } else {
+        let customer = new Customer({
+          email: req.body.email.toLowerCase(),
+          password: req.body.password,
+          name: req.body.name.toLowerCase(),
+          token: sha1(this.email + 'ApriorIT' + new Date())
+        });
+        Customer.create(customer, (err) => {
+          if (err) {
+            next(err);
+            return;
+
+            /*if (err.code === 11000) {
+              res.status(500).json({status: false, message: 'Email is already exist'});
+            } else {
+              if (err.errors.email || err.errors.name || err.errors.password) {
+                res.status(500).send('Invalid field');
+              }
+            }*/
+          }
+
+          res.cookie('authToken', customer.token, { maxAge: 9000000000, httpOnly: true });
+          res.status(200).send(customer);
+        })
+      }
+    }
+  });
+
 }
 
 function checkAuth(req, res) {
@@ -134,7 +179,7 @@ function checkAuth(req, res) {
           return;
         }
 
-        resolve(customer._id);
+        resolve(customer);
       });
     } else {
       res.status(401).send('Unauthorized');
@@ -156,7 +201,7 @@ function checkAuth(req, res) {
         return;
       }
 
-      resolve(customer._id);
+      resolve(customer);
     });
   });
 }
