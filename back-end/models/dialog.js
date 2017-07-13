@@ -23,8 +23,11 @@ const Dialog = new Schema({
     type: Number,
     required: true
   },
-  messages: [Schema.Types.ObjectId],
-    operatorId: {
+  messages: {
+    type: [Schema.Types.ObjectId],
+    required: true
+  },
+  operatorId: {
     type: Schema.Types.ObjectId,
     required: true
   },

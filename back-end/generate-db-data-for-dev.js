@@ -1,11 +1,13 @@
-const Customer = require('./models/customer');
+const ObjectId = require('mongoose').Types.ObjectId;
+
 const Dialog = require('./models/dialog');
-const Operator = require('./models/operator');
+const Message = require('./models/message');
+const User = require('./models/user');
 
 function initialize() {
   flushCollections(() => {
-    fillCustomerCollection(() => {
-      fillOperatorCollection(() => {
+    fillUsersCollection(() => {
+      fillMessagesCollection(() => {
         fillDialogCollection(() => {
           console.log('Database: dummy data generated');
         });
@@ -15,216 +17,311 @@ function initialize() {
 }
 
 function flushCollections(callback) {
-  Customer.deleteMany({}, (err) => {
-    if (err) errorHandler(err);
+  Dialog.deleteMany({}, (err) => {
+    if (err) {
+      errorHandler(err);
+      return;
+    }
 
-    Dialog.deleteMany({}, (err) => {
-      if (err) errorHandler(err);
+    Message.deleteMany({}, (err) => {
+      if (err) {
+        errorHandler(err);
+        return;
+      }
 
-      Operator.deleteMany({}, (err) => {
-        if (err) errorHandler(err);
+      User.deleteMany({}, (err) => {
+        if (err) {
+          errorHandler(err);
+          return;
+        }
         callback();
       });
     });
   });
 }
 
-function fillCustomerCollection(callback) {
-  Customer.create({
-    email: 'customer1-mail@gmail.com',
-    password: 'password123456',
-    name: 'Customer1',
-  } , (err, result) => {
-    if (err) errorHandler(err);
-    callback();
-  });
-}
-
 function fillDialogCollection(callback) {
-  Operator.find({}, (err, docs) => {
+  User.find({role: 'operator'}, (err, operators) => {
+    if (err) {
+      errorHandler(err);
+      return;
+    }
+
     Dialog.create([{
-      clientEmail: 'client1-mail@gmail.com',
-      clientName: 'Client1',
+      clientEmail: 'client-1@gmail.com',
       clientLocation: {
-        lat: 202020,
-        lon: 303030
+        lat: 123456,
+        lon: 654321
       },
-      operatorEmail: docs[0].email,
-      operatorId: docs[0]._id,
-      operatorName: docs[0].name,
-      startTime: Date.now() - 11111,
-      endTime: Date.now() - 10000,
+      clientName: 'Client 1',
+      endTime: Date.now() - 99000000000,
       messages: [
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 1100,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Good bye'
-        }
-      ]
+        ObjectId('120140fa2b23030e98ab92c5'),
+        ObjectId('120240fa2b23030e98ab92c5'),
+        ObjectId('120340fa2b23030e98ab92c5'),
+        ObjectId('120440fa2b23030e98ab92c5'),
+        ObjectId('120540fa2b23030e98ab92c5'),
+      ],
+      operatorId: operators[0]._id,
+      startTime: Date.now() - 100000000000
     },
     {
-      clientEmail: 'client2-mail@gmail.com',
-      clientName: 'Client2',
+      clientEmail: 'client-2@gmail.com',
       clientLocation: {
-        lat: 202020,
-        lon: 303030
+        lat: 123456,
+        lon: 654321
       },
-      operatorEmail: docs[0].email,
-      operatorId: docs[0]._id,
-      operatorName: docs[0].name,
-      startTime: Date.now() - 11111,
-      endTime: Date.now() - 10000,
+      clientName: 'Client 2',
+      endTime: Date.now() - 99000000000,
       messages: [
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 1100,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Good bye'
-        }
-      ]
+        ObjectId('120640fa2b23030e98ab92c5'),
+        ObjectId('120740fa2b23030e98ab92c5'),
+        ObjectId('120840fa2b23030e98ab92c5'),
+        ObjectId('120940fa2b23030e98ab92c5'),
+        ObjectId('121040fa2b23030e98ab92c5'),
+      ],
+      operatorId: operators[0]._id,
+      startTime: Date.now() - 100000000000
     },
     {
-      clientEmail: 'client1-mail@gmail.com',
-      clientName: 'Client1',
+      clientEmail: 'client-1@gmail.com',
       clientLocation: {
-        lat: 202020,
-        lon: 303030
+        lat: 123456,
+        lon: 654321
       },
-      operatorEmail: docs[1].email,
-      operatorId: docs[1]._id,
-      operatorName: docs[1].name,
-      startTime: Date.now() - 11111,
-      endTime: Date.now() - 10000,
+      clientName: 'Client 1',
+      endTime: Date.now() - 99000000000,
       messages: [
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 1100,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Good bye'
-        }
-      ]
+        ObjectId('121140fa2b23030e98ab92c5'),
+        ObjectId('121240fa2b23030e98ab92c5'),
+        ObjectId('121340fa2b23030e98ab92c5'),
+        ObjectId('121440fa2b23030e98ab92c5'),
+        ObjectId('121540fa2b23030e98ab92c5'),
+      ],
+      operatorId: operators[1]._id,
+      startTime: Date.now() - 100000000000
     },
     {
-      clientEmail: 'client2-mail@gmail.com',
-      clientName: 'Client2',
+      clientEmail: 'client-2@gmail.com',
       clientLocation: {
-        lat: 202020,
-        lon: 303030
+        lat: 123456,
+        lon: 654321
       },
-      operatorEmail: docs[1].email,
-      operatorId: docs[1]._id,
-      operatorName: docs[1].name,
-      startTime: Date.now() - 11111,
-      endTime: Date.now() - 10000,
+      clientName: 'Client 2',
+      endTime: Date.now() - 99000000000,
       messages: [
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Hello'
-        },
-        {
-          date: Date.now() - 1100,
-          role: 'client',
-          text: 'Hi'
-        },
-        {
-          date: Date.now() - 11000,
-          role: 'operator',
-          text: 'Good bye'
+        ObjectId('121640fa2b23030e98ab92c5'),
+        ObjectId('121740fa2b23030e98ab92c5'),
+        ObjectId('121840fa2b23030e98ab92c5'),
+        ObjectId('121940fa2b23030e98ab92c5'),
+        ObjectId('122040fa2b23030e98ab92c5'),
+      ],
+      operatorId: operators[1]._id,
+      startTime: Date.now() - 100000000000
+    }], (err , dialogs) => {
+      if (err) {
+        errorHandler(err);
+        return;
+      }
+
+      const operator1Dialogs = [];
+
+      dialogs.forEach((dialog) => {
+        if (dialog.operatorId.equals(operators[0]._id)) {
+          operator1Dialogs.push(dialog._id);
         }
-      ]
-    }], (err, result) => {
-      if (err) errorHandler(err);
-      callback();
+      });
+
+      User.findByIdAndUpdate(operators[0]._id, {dialogs: operator1Dialogs}, (err) => {
+        if (err) {
+          errorHandler(err);
+          return;
+        }
+
+        const operator2Dialogs = [];
+
+        dialogs.forEach((dialog) => {
+          if (dialog.operatorId.equals(operators[1]._id)) {
+            operator2Dialogs.push(dialog._id);
+          }
+        });
+
+        User.findByIdAndUpdate(operators[1]._id, {dialogs: operator2Dialogs}, (err) => {
+          if (err) {
+            errorHandler(err);
+            return;
+          }
+          callback();
+        });
+      });
     });
   });
 }
 
-function fillOperatorCollection(callback) {
-  Customer.findOne({email: 'customer1-mail@gmail.com'}, (err, doc) => {
-    Operator.create([{
-      email: 'operator1-mail@gmail.com',
-      password: 'pass',
-      name: 'Operator1',
-      avatarUrl: 'https://avatars0.githubusercontent.com/u/1342004?v=3&s=200',
-      customerId: doc._id
+function fillMessagesCollection(callback) {
+  Message.create([
+    {
+      _id: ObjectId('120140fa2b23030e98ab92c5'),
+      date: Date.now() - 100000000000,
+      role: 'operator',
+      text: 'Welcome',
     },
-      {
-        email: 'operator2-mail@gmail.com',
-        password: 'pass',
-        name: 'Operator2',
-        avatarUrl: 'https://avatars0.githubusercontent.com/u/1342004?v=3&s=200',
-        customerId: doc._id
-      }], (err, result) => {
-      if (err) errorHandler(err);
+    {
+      _id: ObjectId('120240fa2b23030e98ab92c5'),
+      date: Date.now() - 99999990000,
+      role: 'client',
+      text: 'Hi',
+    },
+    {
+      _id: ObjectId('120340fa2b23030e98ab92c5'),
+      date: Date.now() - 99999900000,
+      role: 'operator',
+      text: 'Ask me anything',
+    },
+    {
+      _id: ObjectId('120440fa2b23030e98ab92c5'),
+      date: Date.now() - 99990000000,
+      role: 'client',
+      text: 'No, thanks',
+    },
+    {
+      _id: ObjectId('120540fa2b23030e98ab92c5'),
+      date: Date.now() - 99000000000,
+      role: 'operator',
+      text: 'Good bye',
+    },
+    {
+      _id: ObjectId('120640fa2b23030e98ab92c5'),
+      date: Date.now() - 100000000000,
+      role: 'operator',
+      text: 'Welcome',
+    },
+    {
+      _id: ObjectId('120740fa2b23030e98ab92c5'),
+      date: Date.now() - 99999990000,
+      role: 'client',
+      text: 'Hi',
+    },
+    {
+      _id: ObjectId('120840fa2b23030e98ab92c5'),
+      date: Date.now() - 99999900000,
+      role: 'operator',
+      text: 'Ask me anything',
+    },
+    {
+      _id: ObjectId('120940fa2b23030e98ab92c5'),
+      date: Date.now() - 99990000000,
+      role: 'client',
+      text: 'No, thanks',
+    },
+    {
+      _id: ObjectId('121040fa2b23030e98ab92c5'),
+      date: Date.now() - 99000000000,
+      role: 'operator',
+      text: 'Good bye',
+    },
+    {
+      _id: ObjectId('121140fa2b23030e98ab92c5'),
+      date: Date.now() - 100000000000,
+      role: 'operator',
+      text: 'Welcome',
+    },
+    {
+      _id: ObjectId('121240fa2b23030e98ab92c5'),
+      date: Date.now() - 99999990000,
+      role: 'client',
+      text: 'Hi',
+    },
+    {
+      _id: ObjectId('121340fa2b23030e98ab92c5'),
+      date: Date.now() - 99999900000,
+      role: 'operator',
+      text: 'Ask me anything',
+    },
+    {
+      _id: ObjectId('121440fa2b23030e98ab92c5'),
+      date: Date.now() - 99990000000,
+      role: 'client',
+      text: 'No, thanks',
+    },
+    {
+      _id: ObjectId('121540fa2b23030e98ab92c5'),
+      date: Date.now() - 99000000000,
+      role: 'operator',
+      text: 'Good bye',
+    },
+    {
+      _id: ObjectId('121640fa2b23030e98ab92c5'),
+      date: Date.now() - 100000000000,
+      role: 'operator',
+      text: 'Welcome',
+    },
+    {
+      _id: ObjectId('121740fa2b23030e98ab92c5'),
+      date: Date.now() - 99999990000,
+      role: 'client',
+      text: 'Hi',
+    },
+    {
+      _id: ObjectId('121840fa2b23030e98ab92c5'),
+      date: Date.now() - 99999900000,
+      role: 'operator',
+      text: 'Ask me anything',
+    },
+    {
+      _id: ObjectId('121940fa2b23030e98ab92c5'),
+      date: Date.now() - 99990000000,
+      role: 'client',
+      text: 'No, thanks',
+    },
+    {
+      _id: ObjectId('122040fa2b23030e98ab92c5'),
+      date: Date.now() - 99000000000,
+      role: 'operator',
+      text: 'Good bye',
+    }
+  ] , (err, result) => {
+    if (err) {
+      errorHandler(err);
+      return;
+    }
+    callback();
+  });
+}
+
+function fillUsersCollection(callback) {
+  User.create({
+    email: 'customer-1@gmail.com',
+    isActive: false,
+    name: 'Customer1',
+    password: 'pass11',
+    paymentExpiresAt: Date.now(),
+    role: 'customer'
+  }, (err, customer) => {
+    if (err) {
+      errorHandler(err);
+      return;
+    }
+
+    User.create([{
+      avatarUrl: 'https://avatars0.githubusercontent.com/u/1342004?v=3&s=200',
+      customerId: customer._id,
+      email: 'operator-1@gmail.com',
+      name: 'Operator 1',
+      password: 'pass11',
+      role: 'operator'
+    }, {
+      avatarUrl: 'https://avatars0.githubusercontent.com/u/1342004?v=3&s=200',
+      customerId: customer._id,
+      email: 'operator-2@gmail.com',
+      name: 'Operator 2',
+      password: 'pass11',
+      role: 'operator'
+    }], (err , result) => {
+      if (err) {
+        errorHandler(err);
+        return;
+      }
       callback();
     });
   });

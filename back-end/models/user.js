@@ -6,7 +6,8 @@ const Operator = new Schema({
     type: String,
     required: function() {
       return this.role === 'operator';
-    }
+    },
+    minlength: 1
   },
   customerId: {
     type: Schema.Types.ObjectId,
@@ -14,6 +15,7 @@ const Operator = new Schema({
       return this.role === 'operator';
     }
   },
+  dialogs: [Schema.Types.ObjectId],
   email: {
     type: String,
     required: true,
@@ -25,27 +27,25 @@ const Operator = new Schema({
   isActive: {
     type: Boolean,
     required: true,
-    default: function() {
-      return this.role === 'operator';
-    }
+    default: true
   },
   name: {
     type: String,
     required: true,
+    match: /^(\w|\s|-)+$/i,
     minlength: 2,
     maxlength: 35,
-
   },
   password: {
     type: String,
     required: true,
-    minlength: 8,
+    minlength: 6,
     maxlength: 35,
   },
   paymentExpiresAt: {
     type: Number,
     required: function() {
-      return this.role === 'operator';
+      return this.role === 'customer';
     }
   },
   role: {

@@ -1,7 +1,8 @@
-const Customer = require('./models/customer');
-const Dialog = require('./models/dialog');
-const Operator = require('./models/operator');
 const sha1 = require('sha1');
+
+const Dialog = require('./models/dialog');
+const Message = require('./models/message');
+const User = require('./models/user');
 
 
 function initialize(app) {
