@@ -1,7 +1,8 @@
 const browserSync = require("browser-sync"),
   cleanCSS = require('gulp-clean-css'),
   gulp = require('gulp'),
-  browserify = require('gulp-browserify'),
+  browserify = require('browserify'),
+  babelify = require('babelify'),
   concat = require('gulp-concat'),
   prefixer = require('gulp-autoprefixer'),
   reload = browserSync.reload,
@@ -9,7 +10,8 @@ const browserSync = require("browser-sync"),
   watch = require('gulp-watch'),
   util = require('gulp-util'),
   clean = require('gulp-clean'),
-  rename = require('gulp-rename');
+  rename = require('gulp-rename'),
+  source = require('vinyl-source-stream');
 
 let path = {
   build: {
@@ -73,11 +75,10 @@ gulp.task('css:build', function () {
 });
 
 gulp.task('js:build', function () {
-  gulp.src(path.src.js)
-    .pipe(browserify({
-      insertGlobals : true,
-      debug : !config.production
-    }))
+  browserify(['src/chat-script.js'])
+    .transform(babelify)
+    .bundle()
+    .pipe(source('bundle.js'))
     .pipe(rename('client-chat.js'))
     .pipe(gulp.dest(path.build.js))
     .pipe(config.production ? util.noop() : reload({stream: true}))
