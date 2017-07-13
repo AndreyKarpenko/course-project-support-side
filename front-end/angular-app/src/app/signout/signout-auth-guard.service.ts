@@ -11,7 +11,7 @@ export class SignoutAuthGuardService implements CanActivate {
   ) {}
 
   canActivate() {
-    if (this.storage.userRole) {
+    if (this.storage.user) {
       return true;
     } else {
       this.router.navigate(['/signin']);

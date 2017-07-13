@@ -11,14 +11,14 @@ function initialize(app) {
       .then((customerId) => {
         if (!customerId) return;
 
-        getOperatorIds(customerId)
-          .then((operatorIds) => {
-            if (!operatorIds) {
+        getOperators(customerId)
+          .then((operators) => {
+            if (!operators) {
               res.status(404).send('Not found');
               return;
             }
 
-            return getDialogIds(operatorIds);
+            return getDialogs(operators);
           })
           .then((dialogs) => {
             if (!dialogs) {
@@ -26,7 +26,31 @@ function initialize(app) {
               return;
             }
 
-            res.status(200).send(dialogs);
+            const uniqueOperatorIdsObj = {};
+
+            dialogs.forEach((dialog) => {
+              uniqueOperatorIdsObj[dialog.operatorId] = dialog.operatorId;
+            });
+
+            const uniqueOperatorIds = Object.keys(uniqueOperatorIdsObj);
+
+            User.find({_id: {$in: uniqueOperatorIds}}, (err, operators) => {
+              if (err) {
+                next(err);
+                return;
+              }
+
+              dialogs.forEach((dialog) => {
+                operators.forEach((operator) => {
+                  if (dialog.operatorId.equals(operator._id)) {
+                    dialog.operatorEmail = operator.email;
+                    dialog.operatorName = operator.name;
+                  }
+                });
+              });
+
+              res.status(200).send(dialogs);
+            });
           })
           .catch((err) => {
             next(err);
@@ -50,18 +74,23 @@ function initialize(app) {
               return;
             }
 
-            if (dialog.messages) {
-              getMessages(dialog.messages)
-                .then((messages) => {
-                  dialog.messages = messages;
-                  res.status(200).send(dialog);
-                })
-                .catch((err) => {
-                  next(err);
-                });
-            } else {
-              res.status(200).send(dialog);
-            }
+            User.findById(dialog.operatorId, (err, operator) => {
+              dialog.operatorEmail = operator.email;
+              dialog.operatorName = operator.name;
+
+              if (dialog.messages) {
+                getMessages(dialog.messages)
+                  .then((messages) => {
+                    dialog.messages = messages;
+                    res.status(200).send(dialog);
+                  })
+                  .catch((err) => {
+                    next(err);
+                  });
+              } else {
+                res.status(200).send(dialog);
+              }
+            });
           });
         })
         .catch((err) => {
@@ -77,7 +106,7 @@ function initialize(app) {
       .then((customerId) => {
         if (!customerId) return;
 
-        getOperatorIds(customerId)
+        getOperators(customerId)
           .then((operators) => {
             if (!operators) {
               res.status(404).send('Not found');
@@ -214,7 +243,7 @@ function checkAuth(req, res) {
   // TODO: implement real auth
 
   return new Promise((resolve, reject) => {
-    User.findOne({role: 'customer'}, {_id: 1}, (err, customer) => {
+    User.findOne({role: 'customer'}, {_id: 1}).lean().exec((err, customer) => {
       if (err) {
         reject(null);
         return;
@@ -230,11 +259,9 @@ function checkAuth(req, res) {
   });
 }
 
-function getDialogIds(operatorIds) {
+function getDialogs(operators) {
   return new Promise((resolve, reject) => {
-    Dialog.find({
-      operatorId: { $in: operatorIds }
-    }, (err, dialogs) => {
+    Dialog.find({operatorId: { $in: operators }}).lean().exec((err, dialogs) => {
       if (err) {
         reject(err);
         return;
@@ -251,7 +278,7 @@ function getDialogIds(operatorIds) {
 
 function getMessages(messageIds) {
   return new Promise((resolve, reject) => {
-    Message.find({_id: { $in: messageIds}}, (err, messages) => {
+    Message.find({_id: { $in: messageIds }}).lean().exec((err, messages) => {
       if (err) {
         reject(null);
         return;
@@ -267,9 +294,9 @@ function getMessages(messageIds) {
   });
 }
 
-function getOperatorIds(customerId) {
+function getOperators(customerId) {
   return new Promise((resolve, reject) => {
-    User.find({customerId: customerId}, (err, operators) => {
+    User.find({customerId: customerId}).lean().exec((err, operators) => {
       if (err) {
         reject(err);
         return;

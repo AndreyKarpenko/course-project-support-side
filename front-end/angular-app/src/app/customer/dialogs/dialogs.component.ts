@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 
 import {ApiService} from '../../core/api.service';
-import {StorageService} from '../../core/storage.service';
 
 @Component({
   templateUrl: './dialogs.component.html',
@@ -22,52 +22,29 @@ export class DialogsComponent implements OnInit {
   constructor(
     private Api: ApiService,
     private formBuilder: FormBuilder,
-    private storage: StorageService
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.dialogs = this.storage.customerInfo.dialogs;
-    this.filteredDialogs = this.dialogs;
+    this.route.data
+      .subscribe((data) => {
+        this.dialogs = data.dialogs;
+        this.filteredDialogs = this.dialogs;
 
-    if (this.dialogs) {
-      this.operators = gatherUniqueItems(this.dialogs, 'operatorEmail', 'operatorName');
-      prepandWithNullValue(this.operators);
-      this.clients = gatherUniqueItems(this.dialogs, 'clientEmail', 'clientName');
-      prepandWithNullValue(this.clients);
+        if (this.dialogs) {
+          this.operators = this.gatherUniqueItems(this.dialogs, 'operatorEmail', 'operatorName');
+          this.prepandWithNullValue(this.operators);
+          this.clients = this.gatherUniqueItems(this.dialogs, 'clientEmail', 'clientName');
+          this.prepandWithNullValue(this.clients);
 
-      if (!this.filtersForm) {  //first ngOnInit call
-        this.filtersForm = this.formBuilder.group({
-          clients: null,
-          operators: null,
-        });
-      }
-    }
-
-    function gatherUniqueItems(source: any[], email: string, name: string): any[] {
-      const uniqueOperators = {};
-
-      source.forEach((item) => {
-        uniqueOperators[item[email]] = item[name];
+          if (!this.filtersForm) {  //first ngOnInit call
+            this.filtersForm = this.formBuilder.group({
+              clients: null,
+              operators: null,
+            });
+          }
+        }
       });
-
-      const result = [];
-
-      for(let key in uniqueOperators) {
-        result.push({
-          email: key,
-          name: uniqueOperators[key]
-        });
-      }
-
-      return result;
-    }
-
-    function prepandWithNullValue(source) {
-      source.unshift({
-        email: null,
-        name: 'All'
-      });
-    }
   }
 
   applyClientFilter(value) {
@@ -110,8 +87,23 @@ export class DialogsComponent implements OnInit {
 
     this.Api.getDialogs()
       .then((dialogs) => {
-        this.storage.customerInfo.dialogs = dialogs;
-        this.ngOnInit();
+        this.dialogs = dialogs;
+        this.filteredDialogs = dialogs;
+
+        if (this.dialogs) {
+          this.operators = this.gatherUniqueItems(this.dialogs, 'operatorEmail', 'operatorName');
+          this.prepandWithNullValue(this.operators);
+          this.clients = this.gatherUniqueItems(this.dialogs, 'clientEmail', 'clientName');
+          this.prepandWithNullValue(this.clients);
+
+          if (!this.filtersForm) {  //first ngOnInit call
+            this.filtersForm = this.formBuilder.group({
+              clients: null,
+              operators: null,
+            });
+          }
+        }
+
         this.filtersForm.reset();
         this.filtersForm.enable();
       })
@@ -119,4 +111,30 @@ export class DialogsComponent implements OnInit {
         console.log(err);
       });
   }
+
+  private gatherUniqueItems(source: any[], email: string, name: string): any[] {
+  const uniqueOperators = {};
+
+  source.forEach((item) => {
+    uniqueOperators[item[email]] = item[name];
+  });
+
+  const result = [];
+
+  for(let key in uniqueOperators) {
+    result.push({
+      email: key,
+      name: uniqueOperators[key]
+    });
+  }
+
+  return result;
+}
+
+ private prepandWithNullValue(source) {
+  source.unshift({
+    email: null,
+    name: 'All'
+  });
+}
 }

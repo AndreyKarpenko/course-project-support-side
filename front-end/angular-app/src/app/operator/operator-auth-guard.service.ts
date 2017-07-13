@@ -13,22 +13,19 @@ export class OperatorAuthGuardService implements CanActivate {
   ) {}
 
   canActivate() {
-    if (!this.storage.userRole) {
-      return this.Api.getUserRole()
+    if (!this.storage.user) {
+      return this.Api.getUser()
         .then((user) => {
           if (!user) {
             this.router.navigate(['/signin']);
             return false;
           }
 
-          if (user.role === 'operator') {
-            this.storage.operatorInfo = user;
-            this.storage.userRole = user.role;
+          this.storage.user = user;
 
+          if (user.role === 'operator') {
             return true;
           } else if (user.role === 'customer') {
-            this.storage.customerInfo.customerDetails = user;
-            this.storage.userRole = user.role;
             this.router.navigate(['/customer/home']);
             return false;
           } else {
@@ -42,7 +39,7 @@ export class OperatorAuthGuardService implements CanActivate {
           return false;
         });
     } else {
-      if (this.storage.userRole === 'operator') {
+      if (this.storage.user.role === 'operator') {
         return true;
       } else {
         this.router.navigate(['/signin']);

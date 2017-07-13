@@ -9,14 +9,6 @@ const serverUrl = 'http://localhost:8000';
 export class ApiService {
   constructor(private http: Http) {}
 
-  getCustomer() {
-    // ...
-  }
-
-  getDialog(id: number | string) {
-    // ...
-  }
-
   getDialogs() {
     return this.http.get(serverUrl + '/api/dialogs')
       .toPromise()
@@ -24,31 +16,11 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  getOperator(id: number | string) {
-    // ...
-  }
-
-  getOperators() {
-    // ...
-  }
-
-  getUserRole() {
+  getUser() {
     return this.http.get(serverUrl + '/api/user')
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);
-  }
-
-  postCustomer(object) {
-    // ...
-  }
-
-  postOperator(object) {
-    // ...
-  }
-
-  updateOperator(object) {
-    // ...
   }
 
   private extractData(res: Response) {
