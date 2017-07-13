@@ -1,0 +1,14 @@
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    margin: 10px 0;
+  }
+}
+
+.active {
+  background-color: #d8ffd3;
+}
