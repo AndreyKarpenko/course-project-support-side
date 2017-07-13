@@ -8,31 +8,25 @@ const User = require('./models/user');
 function initialize(app) {
   app.get('/api/dialogs', (req, res, next) => {
     checkAuth(req, res)
-      .then((customer) => {
-        if (!customer) return;
+      .then((customerId) => {
+        if (!customerId) return;
 
-        getOperators(customer._id)
-          .then((operators) => {
-            if (!operators) {
+        getOperatorIds(customerId)
+          .then((operatorIds) => {
+            if (!operatorIds) {
               res.status(404).send('Not found');
               return;
             }
-            const operatorIds = [];
 
-            operators.forEach((operator) => {
-              operatorIds.push(operator._id);
-            });
-
-            return getDialogs(operatorIds);
+            return getDialogIds(operatorIds);
           })
-          .then((result) => {
-            if (!result) return;
-            if (!result.dialogs) {
+          .then((dialogs) => {
+            if (!dialogs) {
               res.status(404).send('Not found');
               return;
             }
 
-            res.status(200).send(result.dialogs);
+            res.status(200).send(dialogs);
           })
           .catch((err) => {
             next(err);
@@ -44,19 +38,30 @@ function initialize(app) {
   });
 
   app.get('/api/dialog/:id', (req, res, next) => {
-    if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (isObjectIdValid(req.params.id)) {
       checkAuth(req, res)
-        .then((customer) => {
-          if (!customer) return;
+        .then((customerId) => {
+          if (!customerId) return;
 
-          Dialog.findById(req.params.id, (err, dialog) => {
+          Dialog.findById(req.params.id).lean().exec((err, dialog) => {
             if (err) next(err);
             if (!dialog) {
               res.status(404).send('Not found');
               return;
             }
 
-            res.status(200).send(dialog);
+            if (dialog.messages) {
+              getMessages(dialog.messages)
+                .then((messages) => {
+                  dialog.messages = messages;
+                  res.status(200).send(dialog);
+                })
+                .catch((err) => {
+                  next(err);
+                });
+            } else {
+              res.status(200).send(dialog);
+            }
           });
         })
         .catch((err) => {
@@ -69,43 +74,15 @@ function initialize(app) {
 
   app.get('/api/operators', (req, res, next) => {
     checkAuth(req, res)
-      .then((customer) => {
-        if (!customer) return;
+      .then((customerId) => {
+        if (!customerId) return;
 
-        getOperators(customer._id)
+        getOperatorIds(customerId)
           .then((operators) => {
             if (!operators) {
               res.status(404).send('Not found');
               return;
             }
-            const operatorIds = [];
-
-            operators.forEach((operator) => {
-              operatorIds.push(operator._id);
-            });
-
-            return getDialogs(operatorIds, operators);
-          })
-          .then((result) => {
-            if (!result) return;
-
-            const dialogs = result.dialogs;
-            const operators = result.operators;
-
-            if (!dialogs) {
-              res.status(200).send(operators);
-              return;
-            }
-
-            operators.forEach((operator) => {
-              operator.dialogs = [];
-
-              dialogs.forEach((dialog) => {
-                if (dialog.operatorId.equals(operator._id)) {
-                  operator.dialogs.push(dialog);
-                }
-              });
-            });
 
             res.status(200).send(operators);
           })
@@ -117,13 +94,54 @@ function initialize(app) {
         next(err);
       })
   });
+
+  app.get('/api/operator/:id', (req, res, next) => {
+    if (isObjectIdValid(req.params.id)) {
+      checkAuth(req, res)
+        .then((customerId) => {
+          if (!customerId) return;
+
+          User.findById(req.params.id).lean().exec((err, operator) => {
+            if (err) {
+              next(err);
+              return;
+            }
+            if (!operator) {
+              res.status(404).send('Not found');
+              return;
+            }
+
+            if (operator.dialogs) {
+              Dialog.find({_id: {$in: operator.dialogs}}, (err, dialogs) => {
+                operator.dialogs = dialogs;
+                res.status(200).send(operator);
+              });
+            } else {
+              res.status(200).send(operator);
+            }
+          });
+        })
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      res.status(400).send('Bad request');
+    }
+  });
   
   app.get('/api/user', (req, res, next) => {
     checkAuth(req, res)
-      .then((customer) => {
-        if (!customer) return;
+      .then((userId) => {
+        if (!userId) return;
 
-        res.status(200).send(customer);
+        User.findById(userId, (err, user) => {
+          if (err) {
+            next(err);
+            return;
+          }
+
+          res.status(200).send(user);
+        });
       })
       .catch((err) => {
         next(err);
@@ -133,32 +151,37 @@ function initialize(app) {
   app.post('/api/signup', (req, res, next) => {
     if (req.body) {
       if (!req.body.email || !req.body.name || !req.body.password) {
-        res.status(400).send('Filed is empty');
+        res.status(400).send('Bad request');
       } else {
-        let customer = new Customer({
+        const newCustomer = new User({
+          role: 'customer',
           email: req.body.email.toLowerCase(),
           password: req.body.password,
-          name: req.body.name.toLowerCase(),
+          name: req.body.name,
+          isActive: false,
+          paymentExpiresAt: Date.now(),
           token: sha1(this.email + 'ApriorIT' + new Date())
         });
-        Customer.create(customer, (err) => {
+        User.create(newCustomer, (err, customer) => {
           if (err) {
-            next(err);
-            return;
-
-            /*if (err.code === 11000) {
-              res.status(500).json({status: false, message: 'Email is already exist'});
+            if (err.code === 11000) {
+              res.status(400).json('Email is already exist');
+              return;
+            } else if (err.errors.email || err.errors.name || err.errors.password) {
+              res.status(400).send('Invalid field');
+              return;
             } else {
-              if (err.errors.email || err.errors.name || err.errors.password) {
-                res.status(500).send('Invalid field');
-              }
-            }*/
+              next(err);
+              return;
+            }
           }
 
           res.cookie('authToken', customer.token, { maxAge: 9000000000, httpOnly: true });
           res.status(200).send(customer);
         })
       }
+    } else {
+      res.status(400).send('Bad request');
     }
   });
 
@@ -169,7 +192,7 @@ function checkAuth(req, res) {
 
   return new Promise((resolve, reject) => {
     if (token) {
-      Customer.findOne({token: token}, {_id: 1}, (err, customer) => {
+      User.findOne({token: token}, {_id: 1}, (err, customer) => {
         if (err) {
           reject(err);
           return;
@@ -191,7 +214,7 @@ function checkAuth(req, res) {
   // TODO: implement real auth
 
   return new Promise((resolve, reject) => {
-    Customer.findOne({}, (err, customer) => {
+    User.findOne({role: 'customer'}, {_id: 1}, (err, customer) => {
       if (err) {
         reject(null);
         return;
@@ -202,14 +225,51 @@ function checkAuth(req, res) {
         return;
       }
 
-      resolve(customer);
+      resolve(customer._id);
     });
   });
 }
 
-function getOperators(customerId) {
+function getDialogIds(operatorIds) {
   return new Promise((resolve, reject) => {
-    Operator.find({customerId: customerId}).lean().exec((err, operators) => {
+    Dialog.find({
+      operatorId: { $in: operatorIds }
+    }, (err, dialogs) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (!dialogs.length) {
+        resolve(null);
+        return;
+      }
+
+      resolve(dialogs);
+    });
+  });
+}
+
+function getMessages(messageIds) {
+  return new Promise((resolve, reject) => {
+    Message.find({_id: { $in: messageIds}}, (err, messages) => {
+      if (err) {
+        reject(null);
+        return;
+      }
+      if (!messages.length) {
+        res.status(401).send('Unauthorized');
+        resolve(null);
+        return;
+      }
+
+      resolve(messages);
+    });
+  });
+}
+
+function getOperatorIds(customerId) {
+  return new Promise((resolve, reject) => {
+    User.find({customerId: customerId}, (err, operators) => {
       if (err) {
         reject(err);
         return;
@@ -224,38 +284,8 @@ function getOperators(customerId) {
   });
 }
 
-function getDialogs(query, operators) {  // query: operatorId[] | operatorId
-  return new Promise((resolve, reject) => {
-    if (Array.isArray(query)) {
-      Dialog.find({
-        operatorId: { $in: query }
-      }).lean().exec((err, dialogs) => {
-        findResultsHandler(err, dialogs);
-      });
-    } else {
-      Dialog.find({
-        operatorId: query
-      }).lean().exec((err, dialogs) => {
-        findResultsHandler(err, dialogs);
-      });
-    }
-
-    function findResultsHandler(err, dialogs) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      if (!dialogs.length) {
-        resolve({
-          dialogs: null,
-          operators
-        });
-        return;
-      }
-
-      resolve({ dialogs, operators });
-    }
-  });
+function isObjectIdValid(objectId) {
+  return objectId.match(/^[0-9a-fA-F]{24}$/);
 }
 
 module.exports = initialize;
