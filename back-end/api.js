@@ -232,7 +232,7 @@ function checkAuth(req, res) {
           return;
         }
 
-        resolve(customer);
+        resolve(customer._id);
       });
     } else {
       res.status(401).send('Unauthorized');
