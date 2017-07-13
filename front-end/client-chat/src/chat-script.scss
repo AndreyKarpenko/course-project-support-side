@@ -5,7 +5,7 @@ $server_url: "http://localhost:8000";
 
 $chat-window-open-icon: url($server_url + "/client-chat/img/client-chat-open-icon.svg");
 $chat-window-close-icon: url($server_url + "/client-chat/img/client-chat-close-icon.svg");
-$chat-window-minimize-icon: url($server_url + "/client-chat/img/client-chat-minimize-icon.png");
+$chat-window-minimize-icon: url($server_url + "/client-chat/img/client-chat-minimize-icon.svg");
 
 $chat-window-header-height: 50px;
 $chat-opearator-panel-height: 70px;
@@ -201,6 +201,7 @@ $font-family-sans-serif:
   }
 
   .chat-window-input-text {
+    box-sizing: border-box;
     width: 100%;
     height: 50px;
     padding-left: 12px;
