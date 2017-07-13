@@ -28,6 +28,10 @@ export class ApiService {
   }
 
   private handleError(error: any): Promise<any> {
+    if (error.status === 404) {
+      return Promise.resolve(null);
+    }
+
     console.error('API error occurred', error);
     return Promise.reject(error.message || error);
   }

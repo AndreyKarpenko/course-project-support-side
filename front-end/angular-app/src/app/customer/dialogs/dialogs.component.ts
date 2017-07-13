@@ -33,16 +33,14 @@ export class DialogsComponent implements OnInit {
 
         if (this.dialogs) {
           this.operators = this.gatherUniqueItems(this.dialogs, 'operatorEmail', 'operatorName');
-          this.prepandWithNullValue(this.operators);
+          this.prepandArrayWithNull(this.operators);
           this.clients = this.gatherUniqueItems(this.dialogs, 'clientEmail', 'clientName');
-          this.prepandWithNullValue(this.clients);
+          this.prepandArrayWithNull(this.clients);
 
-          if (!this.filtersForm) {  //first ngOnInit call
-            this.filtersForm = this.formBuilder.group({
-              clients: null,
-              operators: null,
-            });
-          }
+          this.filtersForm = this.formBuilder.group({
+            clients: null,
+            operators: null,
+          });
         }
       });
   }
@@ -88,24 +86,16 @@ export class DialogsComponent implements OnInit {
     this.Api.getDialogs()
       .then((dialogs) => {
         this.dialogs = dialogs;
-        this.filteredDialogs = dialogs;
 
         if (this.dialogs) {
           this.operators = this.gatherUniqueItems(this.dialogs, 'operatorEmail', 'operatorName');
-          this.prepandWithNullValue(this.operators);
+          this.prepandArrayWithNull(this.operators);
           this.clients = this.gatherUniqueItems(this.dialogs, 'clientEmail', 'clientName');
-          this.prepandWithNullValue(this.clients);
+          this.prepandArrayWithNull(this.clients);
 
-          if (!this.filtersForm) {  //first ngOnInit call
-            this.filtersForm = this.formBuilder.group({
-              clients: null,
-              operators: null,
-            });
-          }
+          this.filtersForm.reset();
+          this.filtersForm.enable();
         }
-
-        this.filtersForm.reset();
-        this.filtersForm.enable();
       })
       .catch((err) => {
         console.log(err);
@@ -131,10 +121,10 @@ export class DialogsComponent implements OnInit {
   return result;
 }
 
- private prepandWithNullValue(source) {
-  source.unshift({
-    email: null,
-    name: 'All'
-  });
-}
+  private prepandArrayWithNull(source) {
+    source.unshift({
+      email: null,
+      name: 'All'
+    });
+  }
 }
