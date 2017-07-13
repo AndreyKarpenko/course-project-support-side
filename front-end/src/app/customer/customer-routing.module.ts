@@ -7,7 +7,7 @@ import {HomeComponent} from './home/home.component';
 import {OperatorsComponent} from './operators/operators.component';
 
 import {CustomerAuthGuardService} from './customer-auth-guard.service';
-
+import {DialogsResolver} from './dialogs/dialogs-resolver.service';
 const routes: Routes = [
   {
     path: 'customer',
@@ -21,6 +21,9 @@ const routes: Routes = [
       },
       {
         path: 'dialogs',
+        resolve: {
+          dialogs: DialogsResolver
+        },
         component: DialogsComponent
       },
       {
@@ -54,7 +57,10 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [CustomerAuthGuardService,]
+  providers: [
+    CustomerAuthGuardService,
+    DialogsResolver
+  ]
 })
 export class CustomerRoutingModule {
 }

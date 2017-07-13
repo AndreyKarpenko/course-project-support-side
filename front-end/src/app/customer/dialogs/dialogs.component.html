@@ -1,1 +1,48 @@
-<h1>Dialogs</h1>
+<p *ngIf="!dialogs" class="no-dialogs">
+  There are no dialogs yet. Come back later
+</p>
+
+<div *ngIf="dialogs" class="dialogs-wrapper">
+  <div class="refresh-block">
+    <button md-button *ngIf="!filtersForm.disabled"
+            (click)="refreshDialogs();">Refresh dialogs</button>
+    <md-spinner *ngIf="filtersForm.disabled"></md-spinner>
+  </div>
+
+  <div class="filters">
+    <p class="title">Filters</p>
+
+    <form [formGroup]="filtersForm" class="controls">
+      <md-select formControlName="operators" (ngModelChange)="applyOperatorFilter($event)"
+                 placeholder="by operator email">
+        <md-option *ngFor="let operator of operators" [value]="operator.email">
+          <span *ngIf="operator.email" class="email">{{operator.email}}</span>
+          <span class="name">{{operator.name}}</span>
+        </md-option>
+      </md-select>
+
+      <md-select formControlName="clients" (ngModelChange)="applyClientFilter($event)"
+                 placeholder="by client email">
+        <md-option *ngFor="let client of clients" [value]="client.email">
+          <span *ngIf="client.email" class="email">{{client.email}}</span>
+          <span class="name">{{client.name}}</span>
+        </md-option>
+      </md-select>
+    </form>
+  </div>
+
+  <div class="dialogs">
+    <md-card *ngFor="let dialog of filteredDialogs"
+             [routerLink]="['/customer/dialogs/', dialog._id]" class="dialog">
+      <div class="operator-info">
+        <p class="name">{{dialog.operatorName}}</p>
+        <p class="email">{{dialog.operatorEmail}}</p>
+      </div>
+      <div class="client-info">
+        <p class="name">{{dialog.clientName}}</p>
+        <p class="email">{{dialog.clientEmail}}</p>
+      </div>
+      <p class="dialog-start-time">{{dialog.startTime | date:'short'}}</p>
+    </md-card>
+  </div>
+</div>

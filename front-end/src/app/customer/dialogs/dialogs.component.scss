@@ -1,0 +1,92 @@
+.refresh-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+
+  md-spinner {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+.filters {
+  margin-bottom: 50px;
+
+  .title {
+    text-align: center;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+md-select:first-of-type {
+  margin-right: 40px;
+  margin-bottom: 40px;
+}
+
+md-option {
+  .email {
+    padding-right: 5px;
+    border-right: 2px solid #000;
+  }
+}
+
+.dialogs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-self: flex-start;
+}
+
+.dialog {
+  width: 400px;
+  margin: 0 40px 40px 40px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.operator-info, .client-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-self: center;
+
+  .name {
+    margin-right: 20px;
+    cursor: text;
+  }
+
+  .email {
+    cursor: text;
+  }
+}
+
+.dialog-start-time {
+  display: inline-block;
+  cursor: text;
+}
+
+@media (max-width: 543px) {
+  .dialog {
+    width: 100%;
+    margin: 0 15px 40px 15px;
+  }
+
+  .filters .controls {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+
+  md-select:first-of-type {
+    margin-right: 0;
+  }
+}
