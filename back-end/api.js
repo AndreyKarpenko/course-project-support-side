@@ -1,6 +1,8 @@
 const Customer = require('./models/customer');
 const Dialog = require('./models/dialog');
 const Operator = require('./models/operator');
+const sha1 = require('sha1');
+
 
 function initialize(app) {
   app.get('/api/dialogs', (req, res, next) => {
@@ -115,7 +117,39 @@ function initialize(app) {
       })
   });
 
-  // add another API methods here
+  app.post('/api/signup', (req, res, next) => {
+    if (req.body) {
+      if (!req.body.email || !req.body.name || !req.body.password) {
+        res.status(400).send('Filed is empty');
+      } else {
+        let customer = new Customer({
+          email: req.body.email.toLowerCase(),
+          password: req.body.password,
+          name: req.body.name.toLowerCase(),
+          token: sha1(this.email + 'ApriorIT' + new Date())
+        });
+        Customer.create(customer, (err) => {
+          if (err) {
+            next(err);
+            return;
+
+            /*if (err.code === 11000) {
+              res.status(500).json({status: false, message: 'Email is already exist'});
+            } else {
+              if (err.errors.email || err.errors.name || err.errors.password) {
+                res.status(500).send('Invalid field');
+              }
+            }*/
+          }
+
+          res.cookie('authToken', customer.token, { maxAge: 9000000000, httpOnly: true });
+          res.status(200).send(customer);
+        })
+      }
+    }
+  });
+
+    // add another API methods here
 }
 
 function checkAuth(req, res) {

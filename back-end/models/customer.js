@@ -5,11 +5,16 @@ const Customer = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    match: /^(\w|-)+@\w+\.[a-zA-Z]+$/i,
+    minlength: 5,
+    maxlength: 30
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 8,
+    maxlength: 16,
   },
   token: {
     type: String,
@@ -18,7 +23,9 @@ const Customer = new Schema({
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    minlength: 3,
+    maxlength: 30
   },
   isActive: {
     type: Boolean,
