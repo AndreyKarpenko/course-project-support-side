@@ -7,10 +7,10 @@ const sha1 = require('sha1');
 function initialize(app) {
   app.get('/api/dialogs', (req, res, next) => {
     checkAuth(req, res)
-      .then((customerId) => {
-        if (!customerId) return;
+      .then((customer) => {
+        if (!customer) return;
 
-        getOperators(customerId)
+        getOperators(customer._id)
           .then((operators) => {
             if (!operators) {
               res.status(404).send('Not found');
@@ -45,8 +45,8 @@ function initialize(app) {
   app.get('/api/dialog/:id', (req, res, next) => {
     if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
       checkAuth(req, res)
-        .then((customerId) => {
-          if (!customerId) return;
+        .then((customer) => {
+          if (!customer) return;
 
           Dialog.findById(req.params.id, (err, dialog) => {
             if (err) next(err);
@@ -68,10 +68,10 @@ function initialize(app) {
 
   app.get('/api/operators', (req, res, next) => {
     checkAuth(req, res)
-      .then((customerId) => {
-        if (!customerId) return;
+      .then((customer) => {
+        if (!customer) return;
 
-        getOperators(customerId)
+        getOperators(customer._id)
           .then((operators) => {
             if (!operators) {
               res.status(404).send('Not found');
@@ -116,7 +116,19 @@ function initialize(app) {
         next(err);
       })
   });
+  
+  app.get('/api/user', (req, res, next) => {
+    checkAuth(req, res)
+      .then((customer) => {
+        if (!customer) return;
 
+        res.status(200).send(customer);
+      })
+      .catch((err) => {
+        next(err);
+      })
+  });
+  
   app.post('/api/signup', (req, res, next) => {
     if (req.body) {
       if (!req.body.email || !req.body.name || !req.body.password) {
@@ -149,7 +161,6 @@ function initialize(app) {
     }
   });
 
-    // add another API methods here
 }
 
 function checkAuth(req, res) {
@@ -168,7 +179,7 @@ function checkAuth(req, res) {
           return;
         }
 
-        resolve(customer._id);
+        resolve(customer);
       });
     } else {
       res.status(401).send('Unauthorized');
@@ -190,7 +201,7 @@ function checkAuth(req, res) {
         return;
       }
 
-      resolve(customer._id);
+      resolve(customer);
     });
   });
 }

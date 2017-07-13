@@ -10,16 +10,10 @@ const Customer = new Schema({
     minlength: 5,
     maxlength: 30
   },
-  password: {
-    type: String,
+  isActive: {
+    type: Boolean,
     required: true,
-    minlength: 8,
-    maxlength: 16,
-  },
-  token: {
-    type: String,
-    unique: true,
-    sparse: true
+    default: false
   },
   name: {
     type: String,
@@ -27,13 +21,24 @@ const Customer = new Schema({
     minlength: 3,
     maxlength: 30
   },
-  isActive: {
-    type: Boolean,
+  password: {
+    type: String,
     required: true,
-    default: false
+    minlength: 8,
+    maxlength: 16,
   },
   payments: {
     endDate: Number
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'customer'
+  },
+  token: {
+    type: String,
+    unique: true,
+    sparse: true
   }
 });
 

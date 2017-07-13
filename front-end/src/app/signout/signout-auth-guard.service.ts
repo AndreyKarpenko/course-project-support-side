@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, Router} from '@angular/router';
 
-import {StorageService} from './core/storage.service';
+import {StorageService} from '../core/storage.service';
 
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class SignoutAuthGuardService implements CanActivate {
   constructor(
     private router: Router,
     private storage: StorageService
   ) {}
 
   canActivate() {
-    if (this.storage.isSignedIn) {
+    if (this.storage.userRole) {
       return true;
     } else {
       this.router.navigate(['/signin']);
