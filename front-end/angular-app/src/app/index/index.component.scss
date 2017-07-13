@@ -1,0 +1,64 @@
+header {
+  text-align: center;
+
+  h1 {
+    text-transform: uppercase;
+  }
+}
+
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+article {
+  width: 320px;
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo {
+    width: 300px;
+    height: 200px;
+  }
+
+  .text-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+
+    &.express {
+      font-weight: 300;
+      color: #4D4D4D;
+    }
+
+    &.mongoose {
+      font-weight: 700;
+      color: #880000;
+    }
+  }
+
+  .info {
+    margin-top: 40px;
+
+    .title {
+      font-size: 25px;
+      text-align: center;
+    }
+  }
+}
