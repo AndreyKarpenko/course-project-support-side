@@ -1,0 +1,12 @@
+<nav>
+  <button routerLink="/customer/home" routerLinkActive="active"
+          (click)="sidenav.close()" md-button>Home</button>
+  <button routerLink="/customer/operators" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
+          (click)="sidenav.close()" md-button>Operators</button>
+  <button routerLink="/customer/dialogs" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
+          (click)="sidenav.close()" md-button>Dialogs</button>
+  <button routerLink="/customer/payment" routerLinkActive="active"
+          (click)="sidenav.close()" md-button>Payment</button>
+</nav>

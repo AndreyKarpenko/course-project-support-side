@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 const dbUrl = 'mongodb://supportchatserver:Hd46Sjeq739f9910zP@ds143532.mlab.com:43532/supportchat';
-
 mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
