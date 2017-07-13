@@ -117,9 +117,9 @@ function initialize(app) {
       })
   });
 
-  app.post('/api/signup', (req, res) => {
-    if(req.body){
-      if(!req.body.email || !req.body.name || !req.body.password){
+  app.post('/api/signup', (req, res, next) => {
+    if (req.body) {
+      if (!req.body.email || !req.body.name || !req.body.password) {
         res.status(400).send('Filed is empty');
       } else {
         let customer = new Customer({
@@ -129,17 +129,21 @@ function initialize(app) {
           token: sha1(this.email + 'ApriorIT' + new Date())
         });
         Customer.create(customer, (err) => {
-          if(err){
-            if(err.code === 11000){
+          if (err) {
+            next(err);
+            return;
+
+            /*if (err.code === 11000) {
               res.status(500).json({status: false, message: 'Email is already exist'});
             } else {
-              if(err.errors.email || err.errors.name || err.errors.password) {
+              if (err.errors.email || err.errors.name || err.errors.password) {
                 res.status(500).send('Invalid field');
               }
-            }
-          } else {
-            res.status(200).send({status:true, message:'Successfull register'});
+            }*/
           }
+
+          res.cookie('authToken', customer.token, { maxAge: 9000000000, httpOnly: true });
+          res.status(200).send(customer);
         })
       }
     }

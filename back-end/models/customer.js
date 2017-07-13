@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-mongoose.Promise = global.Promise;
 
 const Customer = new Schema({
   email: {
     type: String,
     required: true,
     unique: true,
-    match: /.+@.+\..+/i,
+    match: /^(\w|-)+@\w+\.[a-zA-Z]+$/i,
     minlength: 5,
     maxlength: 30
   },
@@ -25,8 +24,8 @@ const Customer = new Schema({
   name: {
     type: String,
     required: true,
-    minlength:3,
-    maxlength:30
+    minlength: 3,
+    maxlength: 30
   },
   isActive: {
     type: Boolean,

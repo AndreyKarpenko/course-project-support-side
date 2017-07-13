@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/Riddlegun/course-project-support-side#readme",
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.15.3",
-    "mongoose": "^4.11.1",
-    "socket.io": "^2.0.3",
-    "sha1": "^1.1.1"
+    "body-parser": "1.17.2",
+    "cookie-parser": "1.4.3",
+    "express": "4.15.3",
+    "mongoose": "4.11.1",
+    "socket.io": "2.0.3",
+    "sha1": "1.1.1"
   },
   "devDependencies": {
     "cross-env": "^5.0.1"
