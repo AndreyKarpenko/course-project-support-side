@@ -34,7 +34,7 @@ const Dialog = new Schema({
   startTime: {
     type: Number,
     required: true
-  },
+  }
 });
 
 module.exports = mongoose.model('dialog', Dialog);
