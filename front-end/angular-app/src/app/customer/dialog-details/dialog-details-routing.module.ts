@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-
+import {NgModule, Injectable} from '@angular/core';
+import {Resolve, RouterModule, Routes, Router} from '@angular/router';
+import {ApiService} from '../../core/api.service';
 import {DialogDetailsComponent} from './dialog-details.component';
 
 @Injectable()
-export class DialogsResolver implements Resolve<any> {
+export class DialogDetailsRoutingResolver implements Resolve<any> {
   constructor(
     private Api: ApiService,
     private router: Router

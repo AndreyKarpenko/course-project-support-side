@@ -62,7 +62,8 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     CustomerAuthGuardService,
-    DialogsResolver
+    DialogsResolver,
+    DialogDetailsRoutingResolver
   ]
 })
 export class CustomerRoutingModule {
