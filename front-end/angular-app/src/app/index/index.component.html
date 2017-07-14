@@ -1,6 +1,78 @@
-<h1>Index</h1>
+<header>
+  <h1>Web chat</h1>
+  <p class="lead">Welcome to the Web Chat App</p>
+</header>
 
-<app-signin></app-signin>
 
+<div class="signin">
+  <app-signin></app-signin>
+</div>
+
+<p class="technologies-title">
+  What did we use?
+</p>
+<div class="technologies">
+  <article>
+    <div class="logo-container">
+      <img class="logo" src="../../assets/angular-logo.svg" alt="Angular logo">
+    </div>
+    <div class="info">
+      <div class="title">Angular</div>
+      <p class="description">Angular is a platform that combines declarative templates, dependency injection, end to end tooling, and integrated best practices to solve development challenges</p>
+    </div>
+  </article>
+
+  <article>
+    <div class="logo-container">
+      <img class="logo" src="../../assets/nodejs-logo.png" alt="NodeJS logo">
+    </div>
+    <div class="info nodejs">
+      <div class="title">NodeJS</div>
+      <p class="description">Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient</p>
+    </div>
+  </article>
+
+  <article>
+    <div class="logo-container">
+      <img class="logo" src="../../assets/mongodb-logo.svg" alt="MongoDB logo">
+    </div>
+    <div class="info">
+      <div class="title">MongoDB</div>
+      <p class="description">MongoDB is a free and open-source cross-platform document-oriented database program. This NoSQL database program uses JSON-like documents with schemas</p>
+    </div>
+  </article>
+
+  <article>
+    <div class="logo-container">
+      <img class="logo" src="../../assets/web-languages-logo.png" alt="Web languages logo">
+    </div>
+    <div class="info">
+      <div class="title">Modern web standards</div>
+      <p class="description">Using web standards empower developers with the latest capabilities of browsers and related technologies. It helps to build products with reach functionality and also fast performance</p>
+    </div>
+  </article>
+
+  <article>
+    <div class="logo-container">
+      <div class="logo text-logo express">Express</div>
+    </div>
+    <div class="info">
+      <div class="title">Express</div>
+      <p class="description">Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications with a myriad of HTTP utility methods and middlewares</p>
+    </div>
+  </article>
+
+  <article>
+    <div class="logo-container">
+      <div class="logo text-logo mongoose">Mongoose</div>
+    </div>
+    <div class="info">
+      <div class="title">Mongoose</div>
+      <p class="description">Mongoose provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more</p>
+    </div>
+  </article>
+</div>
+
+<!--TODO: clean up-->
 <button routerLink="/operator" md-button>Operator view</button>
 <button routerLink="/customer" md-button>Customer view</button>
