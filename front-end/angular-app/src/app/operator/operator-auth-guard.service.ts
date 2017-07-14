@@ -5,7 +5,7 @@ import {ApiService} from '../core/api.service';
 import {StorageService} from '../core/storage.service';
 
 @Injectable()
-export class CustomerAuthGuardService implements CanActivate {
+export class OperatorAuthGuardService implements CanActivate {
   constructor(
     private Api: ApiService,
     private router: Router,
@@ -13,23 +13,20 @@ export class CustomerAuthGuardService implements CanActivate {
   ) {}
 
   canActivate() {
-    if (!this.storage.userRole) {
-      return this.Api.getUserRole()
+    if (!this.storage.user) {
+      return this.Api.getUser()
         .then((user) => {
           if (!user) {
             this.router.navigate(['/signin']);
             return false;
           }
 
-          if (user.role === 'customer') {
-            this.storage.customerInfo.customerDetails = user;
-            this.storage.userRole = user.role;
+          this.storage.user = user;
 
+          if (user.role === 'operator') {
             return true;
-          } else if (user.role === 'operator') {
-            this.storage.operatorInfo = user;
-            this.storage.userRole = user.role;
-            this.router.navigate(['/operator']);
+          } else if (user.role === 'customer') {
+            this.router.navigate(['/customer/home']);
             return false;
           } else {
             this.router.navigate(['/signin']);
@@ -42,7 +39,7 @@ export class CustomerAuthGuardService implements CanActivate {
           return false;
         });
     } else {
-      if (this.storage.userRole === 'customer') {
+      if (this.storage.user.role === 'operator') {
         return true;
       } else {
         this.router.navigate(['/signin']);

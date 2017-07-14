@@ -10,14 +10,6 @@ export class SignoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.storage.customerInfo = {
-      customerDetails: null,
-      dialogDetails: null,
-      dialogs: null,
-      operatorDetails: null,
-      operators: null,
-    };
-    this.storage.operatorInfo = null;
-    this.storage.userRole = null;
+    this.storage.user = null;
   }
 }
