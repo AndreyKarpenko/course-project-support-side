@@ -1,5 +1,6 @@
 section{
   padding: 30px;
+
 }
 section h1{
   text-align: center;
@@ -11,18 +12,32 @@ section h1{
 }
 
 article .message{
-  margin: 10px 0;
-  border: 1px solid black;
   display: flex;
   justify-content: space-between;
+  margin: 10px 0;
   padding: 10px;
+  border: 1px solid #e9f1e9;
 }
 
 #timeInfo{
   margin-top: 20px;
-  border-top: 1px solid black;
+  border-top: 1px solid #000000;
 }
 
 #timeInfo p:last-child{
   border-top: 1px solid black;
+}
+
+@media (max-width: 600px) {
+  #generalDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+
+  #operatorInfo{
+    border-top: 1px solid black;
+  }
+
 }
