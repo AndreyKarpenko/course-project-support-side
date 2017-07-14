@@ -9,7 +9,7 @@ function initialize() {
     fillUsersCollection(() => {
       fillMessagesCollection(() => {
         fillDialogCollection(() => {
-          console.log('Database: dummy data generated');
+          console.log('Database: dummy data is generated');
         });
       });
     });
