@@ -1,38 +1,25 @@
-import {NgModule, Injectable} from '@angular/core';
-import {Resolve, RouterModule, Routes, Router} from '@angular/router';
-import {ApiService} from '../../core/api.service';
+import {NgModule} from '@angular/core';
+import { RouterModule, Routes} from '@angular/router';
+
 import {DialogDetailsComponent} from './dialog-details.component';
+import {DialogResolver} from './dialog-resolver.service';
 
-@Injectable()
-export class DialogDetailsRoutingResolver implements Resolve<any> {
-  constructor(
-    private Api: ApiService,
-    private router: Router
-  ) {}
-
-  resolve(): any {
-    return this.Api.getDialogs()
-      .then((dialogs) => {
-        return dialogs;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.router.navigate(['/error-message']);
-      });
-  }
-}
 
 
 const routes: Routes = [
   {
     path: '',
-    component: DialogDetailsComponent
+    component: DialogDetailsComponent,
+    resolve: {
+      dialog: DialogResolver
+    }
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [DialogResolver]
 })
 export class DialogDetailsRoutingModule {
 }
