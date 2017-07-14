@@ -17,6 +17,7 @@ let path = {
   build: {
     css: '../../back-end/public/client-chat',
     js: '../../back-end/public/client-chat',
+    vendor: '../../back-end/public/client-chat',
     img: '../../back-end/public/client-chat/img'
   },
   devbuild: {
@@ -26,12 +27,14 @@ let path = {
     html: 'src/test-page/*.html',
     css: 'src/**/*.scss',
     js: 'src/chat-script.js',
+    vendor: 'src/vendor/*.js',
     img: 'src/img/**/*.*'
   },
   watch: {
     html: 'src/**/*.html',
     css: 'src/**/*.scss',
     js: 'src/**/*.js',
+    vendor: 'src/**/*.js',
     img: 'src/img/**/*.*'
   },
   clean: '../../back-end/public/client-chat/**/*.*'
@@ -84,6 +87,12 @@ gulp.task('js:build', function () {
     .pipe(config.production ? util.noop() : reload({stream: true}))
 });
 
+gulp.task('vendor:build', function() {
+  gulp.src(path.src.vendor)
+    .pipe(gulp.dest(path.build.vendor))
+    .pipe(config.production ? util.noop() : reload({stream: true}))
+});
+
 gulp.task('img:build', function () {
   gulp.src(path.src.img)
     .pipe(gulp.dest(path.build.img))
@@ -94,6 +103,7 @@ gulp.task('build', [
   'html:build',
   'css:build',
   'js:build',
+  'vendor:build',
   'img:build'
 ]);
 
@@ -110,6 +120,9 @@ gulp.task('watch', function () {
   });
   watch([path.watch.js], function () {
     gulp.start('js:build');
+  });
+  watch([path.watch.vendor], function () {
+    gulp.start('vendor:build');
   });
   watch([path.watch.img], function () {
     gulp.start('img:build');
