@@ -8,6 +8,9 @@ import {OperatorsComponent} from './operators/operators.component';
 
 import {CustomerAuthGuardService} from './customer-auth-guard.service';
 import {DialogsResolver} from './dialogs/dialogs-resolver.service';
+
+import {DialogDetailsRoutingResolver} from './dialog-details/dialog-details-routing.module';
+
 const routes: Routes = [
   {
     path: 'customer',
