@@ -35,6 +35,10 @@ const routes: Routes = [
     component: SignupComponent
   },
   {
+    path: 'error-message',
+    loadChildren: 'app/error-message/error-message.module#ErrorMessageModule'
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }
