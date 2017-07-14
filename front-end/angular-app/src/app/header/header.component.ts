@@ -9,8 +9,8 @@ import {StorageService} from '../core/storage.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  currentUrl;
-  isAdditionalLinksNeeded;
+  currentUrl: string;
+  isAdditionalLinksNeeded: boolean;
   user;
 
   constructor(
@@ -28,9 +28,9 @@ export class HeaderComponent implements OnInit {
 
           if (!isCustomerView(event.urlAfterRedirects)
               && !isOperatorView(event.urlAfterRedirects)) {
-            this.isAdditionalLinksNeeded = event.urlAfterRedirects;
+            this.isAdditionalLinksNeeded = true;
           } else {
-            this.isAdditionalLinksNeeded = null;
+            this.isAdditionalLinksNeeded = false;
           }
         }
 
