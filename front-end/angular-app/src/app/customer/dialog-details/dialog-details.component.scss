@@ -1,0 +1,28 @@
+section{
+  padding: 30px;
+}
+section h1{
+  text-align: center;
+}
+
+#generalDetails{
+  display: flex;
+  justify-content: space-between;
+}
+
+article .message{
+  margin: 10px 0;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+#timeInfo{
+  margin-top: 20px;
+  border-top: 1px solid black;
+}
+
+#timeInfo p:last-child{
+  border-top: 1px solid black;
+}
