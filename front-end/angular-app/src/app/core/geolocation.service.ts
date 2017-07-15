@@ -17,10 +17,6 @@ export class GeolocationService {
   }
 
   private handleError(error: any): Promise<any> {
-    if (error.status === 404) {
-      return Promise.resolve(null);
-    }
-
     console.error('GeolocationService error occurred', error);
     return Promise.reject(error.message || error);
   }
