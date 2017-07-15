@@ -1,2 +1,36 @@
-<h1>Dialog details</h1>
-<p>А тут у нас будет мой первый биндинг {{dialog.clientName}}</p>
+<section>
+  <h1>Dialog details</h1>
+
+  <article class="general-details">
+
+    <div class="client-info">
+      <p>Client name: <b>{{dialog.clientName}}</b></p>
+      <p>Client Email: <b>{{dialog.clientEmail}}</b></p>
+      <p>Client location:</p>
+      <p>{{dialog.clientLocation.lat}}  {{dialog.clientLocation.lon}}</p>
+    </div>
+
+
+    <div class="operator-info">
+      <p>Operator name: <b>{{dialog.operatorName}}</b></p>
+      <p>Operator Email: <b>{{dialog.operatorEmail}}</b></p>
+      <div class="time-info">
+        <p>Time of start dialog: <b>{{dialog.startTime | date:'short'}}</b></p>
+        <p>Time of finish dialog: <b>{{dialog.endTime | date:'short'}}</b> </p>
+        <p>Duration of dialog: <b>{{(dialog.endTime - dialog.startTime)/1000}} sec</b></p>
+      </div>
+    </div>
+
+
+  </article>
+
+  <article class="messages-details" *ngFor="let message of dialog.messages">
+    <div class="message">
+      <div>{{message.text}}</div>
+      <div>{{message.date | date:'short'}}</div>
+    </div>
+  </article>
+
+
+</section>
+

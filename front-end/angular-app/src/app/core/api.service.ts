@@ -10,7 +10,7 @@ export class ApiService {
   constructor(private http: Http) {}
 
   getDialog(id) {
-    return this.http.get(serverUrl + '/api/dialog/'+id)
+    return this.http.get(serverUrl + '/api/dialog/' + id)
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);

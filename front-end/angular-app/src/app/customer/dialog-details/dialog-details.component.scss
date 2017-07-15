@@ -6,7 +6,7 @@ section h1{
   text-align: center;
 }
 
-#generalDetails{
+.general-details{
   display: flex;
   justify-content: space-between;
 }
@@ -19,24 +19,24 @@ article .message{
   border: 1px solid #e9f1e9;
 }
 
-#timeInfo{
+.time-info{
   margin-top: 20px;
   border-top: 1px solid #000000;
 }
 
-#timeInfo p:last-child{
+.time-info p:last-child{
   border-top: 1px solid black;
 }
 
 @media (max-width: 600px) {
-  #generalDetails{
+  .general-details{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex-wrap: nowrap;
   }
 
-  #operatorInfo{
+  .operator-info{
     border-top: 1px solid black;
   }
 
