@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-
 import {ApiService} from '../../core/api.service';
 
 @Component({
@@ -9,7 +8,7 @@ import {ApiService} from '../../core/api.service';
   styleUrls: ['./dialog-details.component.scss']
 })
 export class DialogDetailsComponent implements OnInit {
-  dialog:any;
+  dialog: any;
   constructor(
     private Api: ApiService,
     private route: ActivatedRoute,
