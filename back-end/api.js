@@ -223,7 +223,7 @@ function initialize(app) {
           email: req.body.email.toLowerCase(),
           password: req.body.password,
           name: req.body.name,
-          isActive: false,
+          isActive: true,
           paymentExpiresAt: Date.now(),
           token: sha1(this.email + 'ApriorIT' + new Date())
         });
