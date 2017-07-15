@@ -1,1 +1,7 @@
-<h1>Operator</h1>
+<h1>Operator panel</h1>
+
+<md-tab-group>
+  <md-tab *ngFor="let item of [1, 2, 3]" [label]="'Tab ' + item">
+    <app-dialog-window></app-dialog-window>
+  </md-tab>
+</md-tab-group>
