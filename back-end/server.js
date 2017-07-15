@@ -7,6 +7,11 @@ const socketIo = require('socket.io');
 
 const db = require('./db');
 
+const cron = require('node-cron').schedule;
+new cron('* * * * * *', function() {
+  console.log('You will see this message every second');
+}, null, true, 'America/Los_Angeles');
+
 const app = express();
 const httpServer = http.Server(app);
 const io = socketIo(httpServer);
