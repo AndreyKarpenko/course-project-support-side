@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import 'rxjs/add/operator/map';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -8,6 +9,10 @@ const serverUrl = 'http://localhost:8000';
 @Injectable()
 export class ApiService {
   constructor(private http: Http) {}
+
+  registerUser(user) {
+    return this.http.post(serverUrl + '/api/signup', user ).map(res => res.json());
+  }
 
   getDialogs() {
     return this.http.get(serverUrl + '/api/dialogs')

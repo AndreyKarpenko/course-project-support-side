@@ -1,1 +1,62 @@
-<h1>Sign up</h1>
+<h1 class="page-header">Register Page</h1>
+
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{message}}
+  </div>
+</div>
+
+<form [formGroup]="form" (submit)="onRegisterSubmit()">
+  <div class="form-group">
+    <label for="email">E-mail</label>
+    <div [ngClass]="{'has-error': (form.controls.email.errors && form.controls.email.dirty),
+                     'has-success': (!form.controls.email.errors)}">
+      <input type="text" id="email" class="form-control" autocomplete="off"
+             placeholder="*E-mail" formControlName="email"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">Required</li>
+        <li *ngIf="form.controls.email.errors?.minlength || form.controls.email.errors?.maxlength">Length</li>
+        <li *ngIf="form.controls.email.errors?.pattern">Pattern</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name">Usename</label>
+    <div [ngClass]="{'has-error': (form.controls.name.errors && form.controls.name.dirty),
+                     'has-success': (!form.controls.name.errors)}">
+      <input type="text" id="name" class="form-control" autocomplete="off"
+             placeholder="*Name" formControlName="name"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">Required</li>
+        <li *ngIf="form.controls.name.errors?.minlength || form.controls.name.errors?.maxlength">Length</li>
+        <li *ngIf="form.controls.name.errors?.pattern">Pattern</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div [ngClass]="{'has-error': (form.controls.password.errors && form.controls.password.dirty),
+                     'has-success': (!form.controls.password.errors)}">
+      <input type="password" id="password" class="form-control" autocomplete="off"
+             placeholder="*Password" formControlName="password"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">Required</li>
+        <li *ngIf="form.controls.password.errors?.minlength || form.controls.password.errors?.maxlength">Length</li>
+        <li *ngIf="form.controls.password.errors?.pattern">Pattern</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="confirm">Confirm password</label>
+    <div [ngClass]="{'has-error': (form.controls.confirm.errors && form.controls.confirm.dirty) || form.errors?.matchingPasswords,
+                     'has-success': (!form.controls.confirm.errors && !form.errors?.matchingPasswords)}">
+      <input type="password" id="confirm" class="form-control" autocomplete="off"
+             placeholder="*Confirm password" formControlName="confirm"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.confirm.errors?.required && form.controls.confirm.dirty">Required</li>
+        <li *ngIf="form.errors?.matchingPasswords">Password don't much</li>
+      </ul>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
