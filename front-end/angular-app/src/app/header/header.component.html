@@ -1,3 +1,24 @@
-<h1>Hello, Username</h1>
-<button md-button>Sign out</button>
-<button routerLink="/" md-button>Back to Main</button>
+<div class="wrapper">
+  <div *ngIf="user" class="user">
+    <p class="name">Hello, {{user.name}}</p>
+    <button md-raised-button class="signout">Sign out</button>
+  </div>
+
+  <div class="links">
+    <div *ngIf="user && isAdditionalLinksNeeded" class="additional-links">
+      <button  routerLink="/customer" md-raised-button>Customer Home page</button>
+      <button  routerLink="/operator" md-raised-button>Operator panel</button>
+    </div>
+    <div *ngIf="currentUrl !== '/'" class="back-to-main">
+      <button routerLink="/" md-raised-button>Back to Main</button>
+    </div>
+  </div>
+</div>
+
+<!-- TODO: clean up-->
+
+<div class="for-dev">
+  <p>For dev purpose</p>
+  <button  routerLink="/customer" md-raised-button>Customer Home page</button>
+  <button  routerLink="/operator" md-raised-button>Operator panel</button>
+</div>
