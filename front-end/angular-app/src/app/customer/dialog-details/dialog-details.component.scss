@@ -1,12 +1,20 @@
-section {
-  padding: 30px;
-
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
-section h1 {
+
+section {
+  width: 60%;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 50px;
   text-align: center;
 }
 
-.general-details {
+.general-info {
   display: flex;
   justify-content: space-between;
 }
@@ -22,18 +30,28 @@ article .message {
 .time-info {
   margin-top: 20px;
   border-top: 1px solid #000000;
+
+  p:last-child {
+    border-top: 1px solid black;
+  }
 }
 
-.time-info p:last-child {
-  border-top: 1px solid black;
+@media (max-width: 991px) {
+  section {
+    width: 80%;
+  }
 }
 
-@media (max-width: 600px) {
-  .general-details {
+@media (max-width: 768px) {
+  .general-info {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .info-block {
+    width: 300px;
   }
 
   .operator-info {

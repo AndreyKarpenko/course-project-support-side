@@ -1,34 +1,35 @@
-<section>
-  <h1>Dialog details</h1>
+<div class="wrapper">
+  <section *ngIf="dialog">
+    <h1>Dialog details</h1>
 
-  <article class="general-details">
-    <div class="client-info">
-      <p>Client name: <b>{{dialog.clientName}}</b></p>
-      <p>Client Email: <b>{{dialog.clientEmail}}</b></p>
-      <p>Client location:</p>
-      <p>{{dialog.clientLocation.lat}}  {{dialog.clientLocation.lon}}</p>
-    </div>
-
-    <div class="operator-info">
-      <p>Operator name: <b>{{dialog.operatorName}}</b></p>
-      <p>Operator Email: <b>{{dialog.operatorEmail}}</b></p>
-      <div class="time-info">
-        <p>Dialog start time: <b>{{dialog.startTime | date:'short'}}</b></p>
-        <p>Dialog finish time: <b>{{dialog.endTime | date:'short'}}</b> </p>
-        <p>Duration of dialog: <b>{{ (dialog.endTime - dialog.startTime) / 1000 }} sec</b></p>
+    <article class="general-info">
+      <div class="info-block client-info">
+        <p>Client name: <b>{{dialog.clientName}}</b></p>
+        <p>Client Email: <b>{{dialog.clientEmail}}</b></p>
+        <p>Client location:</p>
+        <p>{{dialog.clientLocation.lat}}  {{dialog.clientLocation.lon}}</p>
       </div>
-    </div>
-  </article>
 
-  <article class="message-details">
-    <div class="message" *ngFor="let message of dialog.messages">
-      <p class="message-text">{{message.text}}</p>
-      <div class="right-part">
-        <p *ngIf="message.role === 'client'" >{{dialog.clientName}}</p>
-        <p *ngIf="message.role === 'operator'" >{{dialog.operatorName}}</p>
-        <p class="date">{{message.date | date:'short'}}</p>
+      <div class="info-block operator-info">
+        <p>Operator name: <b>{{dialog.operatorName}}</b></p>
+        <p>Operator Email: <b>{{dialog.operatorEmail}}</b></p>
+        <div class="time-info">
+          <p>Dialog start time: <b>{{dialog.startTime | date:'short'}}</b></p>
+          <p>Dialog finish time: <b>{{dialog.endTime | date:'short'}}</b> </p>
+          <p>Duration of dialog: <b>{{ (dialog.endTime - dialog.startTime) / 1000 }} sec</b></p>
+        </div>
       </div>
-    </div>
-  </article>
-</section>
+    </article>
 
+    <article class="message-details">
+      <div class="message" *ngFor="let message of dialog.messages">
+        <p class="message-text">{{message.text}}</p>
+        <div class="right-part">
+          <p *ngIf="message.role === 'client'" >{{dialog.clientName}}</p>
+          <p *ngIf="message.role === 'operator'" >{{dialog.operatorName}}</p>
+          <p class="date">{{message.date | date:'short'}}</p>
+        </div>
+      </div>
+    </article>
+  </section>
+</div>
