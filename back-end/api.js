@@ -1,5 +1,5 @@
 const sha1 = require('sha1');
-
+const ObjectId = require('mongoose').Types.ObjectId;
 const Dialog = require('./models/dialog');
 const Message = require('./models/message');
 const User = require('./models/user');
@@ -178,11 +178,11 @@ function initialize(app) {
   });
 
   app.post('/api/signup', (req, res, next) => {
-    registration(req, res, false, 'customer');
+    registration(req, res, next, false, 'customer');
   });
 
   app.post('/api/operator', (req, res, next) => {
-    registration(req, res, true, 'operator');
+    registration(req, res, next, true, 'operator');
   });
 }
 
@@ -198,9 +198,11 @@ function registration(req, res, next, isActive, role) {
         name: req.body.name,
         isActive: isActive,
         paymentExpiresAt: Date.now(),
+        customerId: ObjectId(req.body.id),
+        avatarUrl:"_",
         token: sha1(this.email + 'ApriorIT' + new Date())
       });
-      User.create(newCustomer, (err, customer) => {
+      User.create(newCustomer, (err, user) => {
         if (err) {
           if (err.code === 11000) {
             res.status(200).json({success: false, message: 'Email is already exist' });
@@ -213,8 +215,7 @@ function registration(req, res, next, isActive, role) {
             return;
           }
         }
-        res.status(200).json({success: true, message: 'Your have registered an operator' });
-
+        res.status(200).json({success: true, message: 'Registration successfull', id: user._id});
       })
     }
   } else {
