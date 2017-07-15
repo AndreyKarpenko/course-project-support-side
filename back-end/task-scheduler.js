@@ -5,7 +5,7 @@ function initialize() {
   // Check customers for payment expiration date every day at 23:55
   // If expired - set isActive: false
 
-  new Schedule('55 * * * * *', function() {
+  new Schedule('00 55 23 * * *', () => {
     User.find({
       isActive: true,
       role: 'customer'
@@ -31,7 +31,7 @@ function initialize() {
         if (err) handleError(err);
       });
     });
-  }, null, true, 'Europe/Kiev');
+  }, true);
 }
 
 function handleError(err) {

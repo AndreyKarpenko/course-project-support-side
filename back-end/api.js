@@ -174,7 +174,52 @@ function initialize(app) {
       })
       .catch((err) => {
         next(err);
+      });
+  });
+
+  app.patch('/api/user', (req, res, next) => {
+    checkAuth(req, res)
+      .then((customerId) => {
+        if (!customerId) return;
+
+        if (req.body) {
+          if (req.body.id) {
+            if (isObjectIdValid(req.body.id)) {
+              const updateFields = Object.assign({}, req.body);
+              delete updateFields.id;
+
+              User.findById(req.body.id, (err, user) => {
+                if (err) {
+                  next(err);
+                  return;
+                }
+                if (!user) {
+                  res.status(404).send('User not found');
+                  return;
+                }
+
+                user.update(updateFields, (err) => {
+                  if (err) {
+                    next(err);
+                    return;
+                  }
+                  res.status(200).send('User updated');
+                });
+              });
+            } else {
+              res.status(400).send('Bad request');
+            }
+          } else {
+            res.status(400).send('Bad request');
+          }
+        } else {
+          res.status(400).send('Bad request');
+        }
+
       })
+      .catch((err) => {
+        next(err);
+      });
   });
   
   app.post('/api/signup', (req, res, next) => {
