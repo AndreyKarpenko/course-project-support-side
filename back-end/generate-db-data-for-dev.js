@@ -280,7 +280,7 @@ function fillMessagesCollection(callback) {
       role: 'operator',
       text: 'Good bye',
     }
-  ] , (err, result) => {
+  ] , (err) => {
     if (err) {
       errorHandler(err);
       return;
@@ -317,7 +317,7 @@ function fillUsersCollection(callback) {
       name: 'Operator 2',
       password: 'pass11',
       role: 'operator'
-    }], (err , result) => {
+    }], (err) => {
       if (err) {
         errorHandler(err);
         return;

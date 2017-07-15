@@ -6,11 +6,7 @@ const path = require('path');
 const socketIo = require('socket.io');
 
 const db = require('./db');
-
-const cron = require('node-cron').schedule;
-new cron('* * * * * *', function() {
-  console.log('You will see this message every second');
-}, null, true, 'America/Los_Angeles');
+require('./task-scheduler')();
 
 const app = express();
 const httpServer = http.Server(app);
