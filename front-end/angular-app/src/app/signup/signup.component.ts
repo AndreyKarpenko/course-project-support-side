@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ApiService } from '../core/api.service';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-signup',
@@ -15,12 +16,14 @@ export class SignupComponent implements OnInit {
   process = false;
 
   constructor(private  formBuilder: FormBuilder,
-              private authService: ApiService) {
+              private authService: ApiService,
+              private router: Router) {
 
   }
 
-  onRegisterSubmit(){
+  onRegisterSubmit() {
     this.process = true;
+    this.disableForm()
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
@@ -28,16 +31,20 @@ export class SignupComponent implements OnInit {
     }
 
     this.authService.registerUser(user).subscribe(data => {
-      if(!data.success){
+      if (!data.success) {
         this.messageClass = 'alert alert-danger';
         this.message = data.message;
-        this.process = false
+        this.process = false;
+        this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
         this.message = data.message;
         this.process = true;
+        setTimeout(() => {
+          this.router.navigate(['/user']);
+        }, 2000)
       }
-    })
+    });
   }
 
   ngOnInit() {
@@ -74,11 +81,24 @@ export class SignupComponent implements OnInit {
     }, {validator: this.matchingPasswords('password', 'confirm')})
   }
 
+  disableForm() {
+    this.form.controls['email'].disable();
+    this.form.controls['name'].disable();
+    this.form.controls['password'].disable();
+    this.form.controls['confirm'].disable();
+  }
+
+  enableForm() {
+    this.form.controls['email'].enable();
+    this.form.controls['name'].enable();
+    this.form.controls['password'].enable();
+    this.form.controls['confirm'].enable();
+  }
 
 
   matchingPasswords(password, confirm ){
     return (group: FormGroup) => {
-      if(group.controls[password].value === group.controls[confirm].value){
+      if (group.controls[password].value === group.controls[confirm].value){
         return null;
       } else {
         return {'matchingPasswords': true}

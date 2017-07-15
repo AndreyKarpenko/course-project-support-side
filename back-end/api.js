@@ -194,7 +194,7 @@ function initialize(app) {
         User.create(newCustomer, (err, customer) => {
           if (err) {
             if (err.code === 11000) {
-              res.status(400).json({success: false, message: 'Email is already exist' });
+              res.status(200).json({success: false, message: 'Email is already exist' });
               return;
             } else if (err.errors.email || err.errors.name || err.errors.password) {
               res.status(400).send('Invalid field');
@@ -204,7 +204,7 @@ function initialize(app) {
               return;
             }
           }
-          res.status(200).json({success: false, message: 'Your are registered as customer' });
+          res.status(200).json({success: true, message: 'Your are registered as customer' });
 
         })
       }
