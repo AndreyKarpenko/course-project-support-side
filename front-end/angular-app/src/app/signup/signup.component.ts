@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
   message;
   messageClass;
   process = false;
+  id;
 
   constructor(private  formBuilder: FormBuilder,
               private authService: ApiService,
@@ -27,7 +28,7 @@ export class SignupComponent implements OnInit {
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
-      password: this.form.get('password').value
+      password: this.form.get('password').value,
     }
 
     this.authService.registerUser(user).subscribe(data => {
@@ -38,6 +39,7 @@ export class SignupComponent implements OnInit {
         this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
+        this.id = data.id;
         this.message = data.message;
         this.process = true;
         setTimeout(() => {
