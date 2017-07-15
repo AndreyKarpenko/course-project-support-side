@@ -22,8 +22,12 @@
 
   <article class="message-details">
     <div class="message" *ngFor="let message of dialog.messages">
-      <p class="date">{{message.date | date:'short'}}</p>
       <p class="message-text">{{message.text}}</p>
+      <div class="right-part">
+        <p *ngIf="message.role === 'client'" >{{dialog.clientName}}</p>
+        <p *ngIf="message.role === 'operator'" >{{dialog.operatorName}}</p>
+        <p class="date">{{message.date | date:'short'}}</p>
+      </div>
     </div>
   </article>
 </section>
