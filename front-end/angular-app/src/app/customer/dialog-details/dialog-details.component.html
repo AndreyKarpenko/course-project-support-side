@@ -15,19 +15,19 @@
       <p>Operator name: <b>{{dialog.operatorName}}</b></p>
       <p>Operator Email: <b>{{dialog.operatorEmail}}</b></p>
       <div class="time-info">
-        <p>Time of start dialog: <b>{{dialog.startTime | date:'short'}}</b></p>
-        <p>Time of finish dialog: <b>{{dialog.endTime | date:'short'}}</b> </p>
-        <p>Duration of dialog: <b>{{(dialog.endTime - dialog.startTime)/1000}} sec</b></p>
+        <p>Dialog start time: <b>{{dialog.startTime | date:'short'}}</b></p>
+        <p>Dialog finish time: <b>{{dialog.endTime | date:'short'}}</b> </p>
+        <p>Duration of dialog: <b>{{ (dialog.endTime - dialog.startTime) / 1000 }} sec</b></p>
       </div>
     </div>
 
 
   </article>
 
-  <article class="messages-details" *ngFor="let message of dialog.messages">
-    <div class="message">
-      <div>{{message.text}}</div>
-      <div>{{message.date | date:'short'}}</div>
+  <article class="message-details">
+    <div class="message" *ngFor="let message of dialog.messages">
+      <p>{{message.text}}</p>
+      <p>{{message.date | date:'short'}}</p>
     </div>
   </article>
 
