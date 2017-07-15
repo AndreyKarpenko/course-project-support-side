@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import {Router, Resolve, ActivatedRouteSnapshot} from '@angular/router';
 
 import {ApiService} from '../../core/api.service';
 
@@ -10,7 +10,7 @@ export class DialogResolver implements Resolve<any> {
     private router: Router
   ) {}
 
-  resolve(route:ActivatedRouteSnapshot): any {
+  resolve(route: ActivatedRouteSnapshot): any {
     const id = route.paramMap.get('id');
     return this.Api.getDialog(id)
       .then((dialog) => {

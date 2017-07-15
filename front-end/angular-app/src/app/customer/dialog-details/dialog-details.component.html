@@ -2,14 +2,12 @@
   <h1>Dialog details</h1>
 
   <article class="general-details">
-
     <div class="client-info">
       <p>Client name: <b>{{dialog.clientName}}</b></p>
       <p>Client Email: <b>{{dialog.clientEmail}}</b></p>
       <p>Client location:</p>
       <p>{{dialog.clientLocation.lat}}  {{dialog.clientLocation.lon}}</p>
     </div>
-
 
     <div class="operator-info">
       <p>Operator name: <b>{{dialog.operatorName}}</b></p>
@@ -20,17 +18,13 @@
         <p>Duration of dialog: <b>{{ (dialog.endTime - dialog.startTime) / 1000 }} sec</b></p>
       </div>
     </div>
-
-
   </article>
 
   <article class="message-details">
     <div class="message" *ngFor="let message of dialog.messages">
-      <p>{{message.text}}</p>
-      <p>{{message.date | date:'short'}}</p>
+      <p class="date">{{message.date | date:'short'}}</p>
+      <p class="message-text">{{message.text}}</p>
     </div>
   </article>
-
-
 </section>
 

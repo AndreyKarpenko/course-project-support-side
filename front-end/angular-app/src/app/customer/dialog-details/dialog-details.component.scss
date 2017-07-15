@@ -1,17 +1,17 @@
-section{
+section {
   padding: 30px;
 
 }
-section h1{
+section h1 {
   text-align: center;
 }
 
-.general-details{
+.general-details {
   display: flex;
   justify-content: space-between;
 }
 
-article .message{
+article .message {
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
@@ -19,25 +19,24 @@ article .message{
   border: 1px solid #e9f1e9;
 }
 
-.time-info{
+.time-info {
   margin-top: 20px;
   border-top: 1px solid #000000;
 }
 
-.time-info p:last-child{
+.time-info p:last-child {
   border-top: 1px solid black;
 }
 
 @media (max-width: 600px) {
-  .general-details{
+  .general-details {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex-wrap: nowrap;
   }
 
-  .operator-info{
+  .operator-info {
     border-top: 1px solid black;
   }
-
 }

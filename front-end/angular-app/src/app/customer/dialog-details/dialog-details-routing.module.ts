@@ -1,10 +1,8 @@
 import {NgModule} from '@angular/core';
-import { RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 import {DialogDetailsComponent} from './dialog-details.component';
 import {DialogResolver} from './dialog-resolver.service';
-
-
 
 const routes: Routes = [
   {

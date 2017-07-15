@@ -31,7 +31,7 @@ export class ApiService {
   }
 
   private extractData(res: Response) {
-    return res.json();
+    return res.json() || null;
   }
 
   private handleError(error: any): Promise<any> {
