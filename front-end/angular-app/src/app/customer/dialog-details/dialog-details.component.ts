@@ -20,7 +20,6 @@ export class DialogDetailsComponent implements OnInit {
     this.route.data
       .subscribe((data) => {
         this.dialog = data.dialog;
-        console.log('data', this.dialog);
         if (!this.dialog){
           this.router.navigate(['/page-not-found']);
         }
