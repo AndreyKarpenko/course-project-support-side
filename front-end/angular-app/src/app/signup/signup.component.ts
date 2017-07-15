@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
         this.message = data.message;
         this.process = true;
         setTimeout(() => {
-          this.router.navigate(['/user']);
+          this.router.navigate(['/customer/home']);
         }, 2000)
       }
     });
