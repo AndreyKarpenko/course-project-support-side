@@ -50,8 +50,8 @@ function fillDialogCollection(callback) {
     Dialog.create([{
       clientEmail: 'client-1@gmail.com',
       clientLocation: {
-        lat: 123456,
-        lon: 654321
+        lat: 48.517740599999996,
+        lon: 35.0335944
       },
       clientName: 'Client 1',
       endTime: Date.now() - 99000000000,
@@ -68,8 +68,8 @@ function fillDialogCollection(callback) {
     {
       clientEmail: 'client-2@gmail.com',
       clientLocation: {
-        lat: 123456,
-        lon: 654321
+        lat: 48.517740599999996,
+        lon: 35.0335944
       },
       clientName: 'Client 2',
       endTime: Date.now() - 99000000000,
@@ -86,8 +86,8 @@ function fillDialogCollection(callback) {
     {
       clientEmail: 'client-1@gmail.com',
       clientLocation: {
-        lat: 123456,
-        lon: 654321
+        lat: 48.517740599999996,
+        lon: 35.0335944
       },
       clientName: 'Client 1',
       endTime: Date.now() - 99000000000,
@@ -104,8 +104,8 @@ function fillDialogCollection(callback) {
     {
       clientEmail: 'client-2@gmail.com',
       clientLocation: {
-        lat: 123456,
-        lon: 654321
+        lat: 48.517740599999996,
+        lon: 35.0335944
       },
       clientName: 'Client 2',
       endTime: Date.now() - 99000000000,
@@ -280,7 +280,7 @@ function fillMessagesCollection(callback) {
       role: 'operator',
       text: 'Good bye',
     }
-  ] , (err, result) => {
+  ] , (err) => {
     if (err) {
       errorHandler(err);
       return;
@@ -317,7 +317,7 @@ function fillUsersCollection(callback) {
       name: 'Operator 2',
       password: 'pass11',
       role: 'operator'
-    }], (err , result) => {
+    }], (err) => {
       if (err) {
         errorHandler(err);
         return;

@@ -6,8 +6,10 @@
       <div class="info-block client-info">
         <p>Client name: <b>{{dialog.clientName}}</b></p>
         <p>Client Email: <b>{{dialog.clientEmail}}</b></p>
-        <p>Client location:</p>
-        <p>{{dialog.clientLocation.lat}}  {{dialog.clientLocation.lon}}</p>
+        <div *ngIf="dialog.clientAddress">
+          <p>Client location:</p>
+          <p><b>{{dialog.clientAddress}}</b></p>
+        </div>
       </div>
 
       <div class="info-block operator-info">
