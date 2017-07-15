@@ -10,6 +10,7 @@ import {CoreModule} from './core/core.module';
 import {CustomerModule} from './customer/customer.module';
 import {IndexModule} from './index/index.module';
 import {OperatorsModule} from './operator/operator.module';
+import {NewOperatorModule} from './customer/new-operator/new-operator.module'
 import {PageNotFoundModule} from './page-not-found/page-not-found.module';
 import {SigninModule} from './signin/signin.module';
 import {SignoutModule} from './signout/signout.module';
@@ -31,6 +32,7 @@ import {HeaderComponent} from './header/header.component';
     CustomerModule,
     IndexModule,
     OperatorsModule,
+    NewOperatorModule,
     PageNotFoundModule,
     SigninModule,
     SignoutModule,
