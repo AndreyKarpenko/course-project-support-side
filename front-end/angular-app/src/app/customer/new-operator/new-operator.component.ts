@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../core/api.service';
-import { Router } from '@angular/router'
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ApiService} from '../../core/api.service';
+import {StorageService} from '../../core/storage.service';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-new-operator',
@@ -14,11 +15,12 @@ export class NewOperatorComponent implements OnInit {
   message;
   messageClass;
   process = false;
-  id;
+  id = this.storage.user;
 
   constructor(private  formBuilder: FormBuilder,
-              private authService: ApiService,
-              private router: Router) {
+              private api: ApiService,
+              private router: Router,
+              private storage:StorageService) {
 
   }
 
@@ -29,9 +31,10 @@ export class NewOperatorComponent implements OnInit {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
       password: this.form.get('password').value,
+
     }
 
-    this.authService.registerOperator(user).subscribe(data => {
+    this.api.registerOperator(user).subscribe(data => {
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
         this.message = data.message;
@@ -39,11 +42,10 @@ export class NewOperatorComponent implements OnInit {
         this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
-        this.id = data.id;
         this.message = data.message;
         this.process = true;
         setTimeout(() => {
-          this.router.navigate(['/user']);
+          this.router.navigate(['/customer/operators/:id']);
         }, 2000)
       }
     });
@@ -62,7 +64,7 @@ export class NewOperatorComponent implements OnInit {
       name: ['Andrey', Validators.compose(
         [
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(2),
           Validators.maxLength(30),
           Validators.pattern(/^[a-zA-Z0-9]+$/)
         ]
@@ -70,7 +72,7 @@ export class NewOperatorComponent implements OnInit {
       password: ['123456789', Validators.compose(
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(2),
           Validators.maxLength(32),
           Validators.pattern(/^[a-zA-Z0-9]+$/)
         ]
