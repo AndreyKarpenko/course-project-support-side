@@ -1,4 +1,33 @@
 <h3>Dialogs history</h3>
-<div *ngFor="let previousDialog of dialog.clientPreviousDialogs" class="dialogs">
-  <p>{{previousDialog._id}}</p>
-</div>
+
+<p-accordion (onOpen)="accordionOnOpen($event)" [multiple]="true" [lazy]="true">
+  <p-accordionTab *ngFor="let previousDialog of dialog.clientPreviousDialogs"
+                  [header]="previousDialog.startTime | date:'short'">
+    <md-progress-bar *ngIf="!previousDialog.isMessagesLoaded"
+                     mode="indeterminate"></md-progress-bar>
+    <div *ngIf="previousDialog.isMessagesLoaded">
+      <p class="start-time">Start time: {{previousDialog.startTime}}</p>
+      <p class="end-time">End time: {{previousDialog.endTime}}</p>
+      <p class="duration">Duration
+        {{ (previousDialog.endTime - previousDialog.startTime)/1000 }} sec
+      </p>
+      <p *ngIf="previousDialog.clientAddress">
+        Client address: {{previousDialog.clientAddress}}
+      </p>
+      <p class="operator-name">Operator name: {{previousDialog.operatorName}}</p>
+      <p class="operator-email">Operator email: {{previousDialog.operatorEmail}}</p>
+      <div class="messages">
+        <div *ngFor="let message of previousDialog.messages" class="message">
+          <p *ngIf="message.role === 'client'" class="role">
+            {{dialog.clientName}}
+          </p>
+          <p *ngIf="message.role === 'operator'" class="role">
+            {{previousDialog.operatorName}}
+          </p>
+          <p class="date">{{message.date | date:'short'}}</p>
+          <p class="text">{{message.text}}</p>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+</p-accordion>
