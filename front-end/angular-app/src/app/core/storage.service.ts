@@ -11,5 +11,5 @@ export class StorageService {
     name: 'Operator 2',
     password: 'pass11',
     role: 'operator'
-  }
+  };
 }

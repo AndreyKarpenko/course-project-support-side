@@ -16,8 +16,25 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  getDialogs() {
-    return this.http.get(serverUrl + '/api/dialogs')
+  getDialogs(query?: any) {
+    if (!query || !Object.keys(query).length) {
+      return this.http.get(serverUrl + '/api/dialogs')
+        .toPromise()
+        .then(this.extractData)
+        .catch(this.handleError);
+    }
+
+    let queryString = '?';
+
+    Object.keys(query).forEach((key, index) => {
+      if (index === 0) {
+        queryString += `${key}=${query[key]}`;
+      } else {
+        queryString += `&${key}=${query[key]}`;
+      }
+    });
+
+    return this.http.get(serverUrl + '/api/dialogs' + queryString)
       .toPromise()
       .then(this.extractData)
       .catch(this.handleError);

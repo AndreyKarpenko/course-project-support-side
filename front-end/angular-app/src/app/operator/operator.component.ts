@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
+import {ApiService} from '../core/api.service';
 import {GeolocationService} from '../core/geolocation.service';
 import {StorageService} from '../core/storage.service';
 
@@ -21,6 +22,7 @@ export class OperatorsComponent implements OnInit {
   operator;
 
   constructor(
+    private Api: ApiService,
     private geolocation: GeolocationService,
     private storage: StorageService
   ) {}
@@ -31,24 +33,32 @@ export class OperatorsComponent implements OnInit {
   }
 
   addDummyDialog() {
-    this.dummyDialog['messages'] = [];
+    const newDummyDialog = this.deepCopy(this.dummyDialog);
+    newDummyDialog.messages = [];
 
-    if (this.dummyDialog['clientLocation']) {
-      const lat = this.dummyDialog['clientLocation'].lat;
-      const lon = this.dummyDialog['clientLocation'].lon;
+    this.Api.getDialogs({clientEmail: newDummyDialog.clientEmail})
+      .then((previousDialogs) => {
+        newDummyDialog.clientPreviousDialogs = previousDialogs;
 
-      this.geolocation.getAddress(lat, lon)
-        .then((address) => {
-          const newDummyDialog = this.deepCopy(this.dummyDialog);
-          newDummyDialog.clientAddress = address;
+        if (newDummyDialog.clientLocation) {
+          const lat = newDummyDialog.clientLocation.lat;
+          const lon = newDummyDialog.clientLocation.lon;
+
+          this.geolocation.getAddress(lat, lon)
+            .then((address) => {
+              newDummyDialog.clientAddress = address;
+              this.dialogs.push(newDummyDialog);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
           this.dialogs.push(newDummyDialog);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      this.dialogs.push(this.deepCopy(this.dummyDialog));
-    }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   private deepCopy(object) {

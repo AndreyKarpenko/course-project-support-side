@@ -1,1 +1,4 @@
 <h3>Dialogs history</h3>
+<div *ngFor="let previousDialog of dialog.clientPreviousDialogs" class="dialogs">
+  <p>{{previousDialog._id}}</p>
+</div>
