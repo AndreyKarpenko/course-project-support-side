@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { ApiService } from '../core/api.service';
-import { Router } from '@angular/router'
+import {ApiService} from '../core/api.service';
+import {StorageService} from '../core/storage.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -17,21 +18,24 @@ export class SignupComponent implements OnInit {
   id;
 
   constructor(private  formBuilder: FormBuilder,
-              private authService: ApiService,
-              private router: Router) {
+              private api: ApiService,
+              private router: Router,
+              private storage:StorageService) {
 
   }
 
   onRegisterSubmit() {
     this.process = true;
-    this.disableForm()
+    this.disableForm();
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
       password: this.form.get('password').value,
-    }
+    };
 
-    this.authService.registerUser(user).subscribe(data => {
+    this.storage.user = this.id;
+
+    this.api.registerUser(user).subscribe(data => {
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
         this.message = data.message;
@@ -62,7 +66,7 @@ export class SignupComponent implements OnInit {
       name: ['Andrey', Validators.compose(
         [
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(2),
           Validators.maxLength(30),
           Validators.pattern(/^[a-zA-Z0-9]+$/)
         ]
@@ -70,7 +74,7 @@ export class SignupComponent implements OnInit {
       password: ['123456789', Validators.compose(
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(2),
           Validators.maxLength(32),
           Validators.pattern(/^[a-zA-Z0-9]+$/)
         ]
