@@ -1,1 +1,36 @@
 <h3>Chat component</h3>
+
+<button (click)="receiveDummyMessage()"
+        md-raised-button>Receive dummy message</button>
+
+<div *ngIf="dialog.messages.length" class="messages">
+  <div *ngFor="let message of dialog.messages" class="message">
+    <p *ngIf="message.role === 'client'" class="role">
+      {{dialog.clientName}}
+    </p>
+    <p *ngIf="message.role === 'operator'" class="role">You</p>
+    <p class="date">{{message.date | date:'short'}}</p>
+    <p class="text">{{message.text}}</p>
+  </div>
+</div>
+
+<div class="controls">
+  <form #form="ngForm"
+        (ngSubmit)="sendMessage(messageInput)">
+    <md-input-container>
+      <textarea #messageInput (keydown.enter)="sendMessage(messageInput, $event)"
+                ngModel name="messageText"
+                placeholder="Enter message here" mdInput>
+      </textarea>
+    </md-input-container>
+    <!--I know about required attr and [disabled]="form.invalid"-->
+    <!--but if textarea is invalid it appears in red colors-->
+    <button [disabled]="messageInput.value === ''"
+            md-raised-button>Send message</button>
+  </form>
+
+  <p class="note"><b>Note:</b> For line break hit Shift+Enter</p>
+</div>
+
+<button md-raised-button color="warn"
+        class="finish-dialog">Finish dialog</button>

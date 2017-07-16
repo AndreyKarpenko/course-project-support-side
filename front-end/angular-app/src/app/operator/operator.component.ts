@@ -29,12 +29,13 @@ export class OperatorsComponent implements OnInit {
 
   ngOnInit() {
     this.operator = this.storage.user;
-    this.dummyDialog['operatorId'] = this.operator.id;
   }
 
   addDummyDialog() {
     const newDummyDialog = this.deepCopy(this.dummyDialog);
     newDummyDialog.messages = [];
+    newDummyDialog.operatorId = this.operator._id;
+    newDummyDialog.operatorName = this.operator.name;
 
     this.Api.getDialogs({clientEmail: newDummyDialog.clientEmail})
       .then((previousDialogs) => {

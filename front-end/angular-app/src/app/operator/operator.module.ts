@@ -1,7 +1,8 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {MdButtonModule, MdInputModule, MdProgressBarModule,
-        MdSelectModule, MdTabsModule} from '@angular/material';
+import {FormsModule} from '@angular/forms';
+import {MdButtonModule, MdDialogModule, MdInputModule,
+        MdProgressBarModule, MdSelectModule, MdTabsModule} from '@angular/material';
 import {AccordionModule} from 'primeng/components/accordion/accordion';
 
 import {ChatComponent} from './chat/chat.component';
@@ -21,7 +22,9 @@ import {OperatorsComponent} from './operator.component';
   imports: [
     AccordionModule,
     CommonModule,
+    FormsModule,
     MdButtonModule,
+    MdDialogModule,
     MdInputModule,
     MdProgressBarModule,
     MdSelectModule,
