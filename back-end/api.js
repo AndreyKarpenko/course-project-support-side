@@ -188,7 +188,7 @@ function initialize(app) {
 
 function registration(req, res, next, isActive, role) {
   if (req.body) {
-    if (!req.body.email || !req.body.name || !req.body.password) {
+    if (!req.body.email || !req.body.name || !req.body.password || req.body.avatarUrl) {
       res.status(400).send('Empty Fields');
     } else {
       const newCustomer = new User({
@@ -199,7 +199,7 @@ function registration(req, res, next, isActive, role) {
         isActive: isActive,
         paymentExpiresAt: Date.now(),
         customerId: ObjectId(req.body.id),
-        avatarUrl:"_",
+        avatarUrl:req.body.avatarUrl,
         token: sha1(this.email + 'ApriorIT' + new Date())
       });
       User.create(newCustomer, (err, user) => {
