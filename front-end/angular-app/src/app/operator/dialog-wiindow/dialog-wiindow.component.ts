@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-dialog-window',
@@ -6,6 +6,8 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./dialog-wiindow.component.scss']
 })
 export class DialogWiindowComponent implements OnInit {
+  @Input() dialog;
+
   constructor() {
   }
 

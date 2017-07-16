@@ -49,7 +49,28 @@ function initialize(app) {
                 });
               });
 
-              res.status(200).send(dialogs);
+              if (Object.keys(req.query).length) {
+                const expextedMatches = Object.keys(req.query).length;
+
+                const filteredDialogs = dialogs.filter((dialog) => {
+                  let matchCount = 0;
+
+                  for (const key in req.query) {
+                    if (dialog[key] === req.query[key]) matchCount++;
+                  }
+
+                  if (matchCount === expextedMatches) return dialog;
+                });
+
+                if (!filteredDialogs.length) {
+                  res.status(404).send('Not found');
+                  return;
+                }
+
+                res.status(200).send(filteredDialogs);
+              } else {
+                res.status(200).send(dialogs);
+              }
             });
           })
           .catch((err) => {

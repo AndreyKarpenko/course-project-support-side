@@ -1,1 +1,7 @@
 <h3>Client info</h3>
+<p>Name: {{dialog.clientName}}</p>
+<p>Email: {{dialog.clientEmail}}</p>
+<div *ngIf="dialog.clientAddress">
+  <p>Location:</p>
+  <p>{{dialog.clientAddress}}</p>
+</div>

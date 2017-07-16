@@ -1,7 +1,14 @@
 <h1>Operator panel</h1>
 
-<md-tab-group>
-  <md-tab *ngFor="let item of [1, 2, 3]" [label]="'Tab ' + item">
-    <app-dialog-window></app-dialog-window>
+<div *ngIf="!dialogs.length" class="no-dialogs-message">
+  There are no active dialogs for this moment
+</div>
+
+<button (click)="addDummyDialog()"
+        md-raised-button>Start dummy dialog</button>
+
+<md-tab-group *ngIf="dialogs.length">
+  <md-tab *ngFor="let dialog of dialogs" [label]="dialog.clientName">
+    <app-dialog-window [dialog]="dialog"></app-dialog-window>
   </md-tab>
 </md-tab-group>
