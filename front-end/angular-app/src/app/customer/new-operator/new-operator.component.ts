@@ -17,7 +17,7 @@ export class NewOperatorComponent implements OnInit {
   process = false;
   id = this.storage.user;
 
-  constructor(private  formBuilder: FormBuilder,
+  constructor (private  formBuilder: FormBuilder,
               private api: ApiService,
               private router: Router,
               private storage:StorageService) {
@@ -26,13 +26,14 @@ export class NewOperatorComponent implements OnInit {
 
   onRegisterSubmit() {
     this.process = true;
-    this.disableForm()
+    this.disableForm();
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
       password: this.form.get('password').value,
-
-    }
+      avatarURL: this.form.get('avatarURL').value,
+      id: this.id
+    };
 
     this.api.registerOperator(user).subscribe(data => {
       if (!data.success) {
