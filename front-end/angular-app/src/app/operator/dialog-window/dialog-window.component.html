@@ -1,6 +1,9 @@
 <h2>Dialog window</h2>
 
-<app-chat [dialog]="dialog"></app-chat>
+<button (click)="onChatFinished()"
+        md-raised-button>Emit client disconnection</button>
+
+<app-chat [dialog]="dialog" (chatFinished)="onChatFinished($event)"></app-chat>
 <app-client-info [dialog]="dialog"></app-client-info>
 <app-dialogs-history *ngIf="dialog.clientPreviousDialogs"
                      [dialog]="dialog"></app-dialogs-history>

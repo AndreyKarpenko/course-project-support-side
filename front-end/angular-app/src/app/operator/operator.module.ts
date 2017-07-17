@@ -7,9 +7,10 @@ import {AccordionModule} from 'primeng/components/accordion/accordion';
 
 import {ChatComponent} from './chat/chat.component';
 import {ClientInfoComponent} from './client-info/client-info.component';
-import {DialogWiindowComponent} from './dialog-wiindow/dialog-wiindow.component';
+import {DialogWiindowComponent} from './dialog-window/dialog-window.component';
 import {DialogsHistoryComponent} from './dialogs-history/dialogs-history.component';
 import {OperatorsComponent} from './operator.component';
+import {PopupDialogComponent} from './dialog-window/popup-dialog.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,11 @@ import {OperatorsComponent} from './operator.component';
     ClientInfoComponent,
     DialogWiindowComponent,
     DialogsHistoryComponent,
-    OperatorsComponent
+    OperatorsComponent,
+    PopupDialogComponent
+  ],
+  entryComponents: [
+    PopupDialogComponent
   ],
   imports: [
     AccordionModule,

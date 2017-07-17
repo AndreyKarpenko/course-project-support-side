@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -7,6 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class ChatComponent implements OnInit {
   @Input() dialog;
+  @Output() chatFinished = new EventEmitter();
 
   constructor() {
   }
@@ -17,6 +18,10 @@ export class ChatComponent implements OnInit {
       role: 'operator',
       text: `Welcome, my name is ${this.dialog.operatorName}.\nAsk me something`,
     });
+  }
+
+  onChatFinished() {
+    this.chatFinished.emit(true);
   }
 
   receiveDummyMessage() {
