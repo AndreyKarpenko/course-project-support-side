@@ -48,18 +48,28 @@ export class OperatorsComponent implements OnInit {
           this.geolocation.getAddress(lat, lon)
             .then((address) => {
               newDummyDialog.clientAddress = address;
+              newDummyDialog.dialogIndex = this.dialogs.length;
               this.dialogs.push(newDummyDialog);
             })
             .catch((err) => {
               console.log(err);
             });
         } else {
+          newDummyDialog.dialogIndex = this.dialogs.length;
           this.dialogs.push(newDummyDialog);
         }
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  onDialogFinished(finishedDialog) {
+    this.dialogs.splice(finishedDialog.dialogIndex, 1);
+    this.dialogs.forEach((dialog, index) => {
+      dialog.dialogIndex = index;
+    });
+    console.log(this.dialogs);
   }
 
   private deepCopy(object) {

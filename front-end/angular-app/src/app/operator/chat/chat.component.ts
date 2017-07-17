@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class ChatComponent implements OnInit {
   @Input() dialog;
-  @Output() chatFinished = new EventEmitter();
+  @Output() dialogFinished = new EventEmitter();
 
   constructor() {
   }
@@ -21,7 +21,7 @@ export class ChatComponent implements OnInit {
   }
 
   onChatFinished() {
-    this.chatFinished.emit(true);
+    this.dialogFinished.emit(true);
   }
 
   receiveDummyMessage() {

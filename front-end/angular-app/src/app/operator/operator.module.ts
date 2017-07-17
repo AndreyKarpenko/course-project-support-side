@@ -7,7 +7,7 @@ import {AccordionModule} from 'primeng/components/accordion/accordion';
 
 import {ChatComponent} from './chat/chat.component';
 import {ClientInfoComponent} from './client-info/client-info.component';
-import {DialogWiindowComponent} from './dialog-window/dialog-window.component';
+import {DialogWindowComponent} from './dialog-window/dialog-window.component';
 import {DialogsHistoryComponent} from './dialogs-history/dialogs-history.component';
 import {OperatorsComponent} from './operator.component';
 import {PopupDialogComponent} from './dialog-window/popup-dialog.component';
@@ -16,7 +16,7 @@ import {PopupDialogComponent} from './dialog-window/popup-dialog.component';
   declarations: [
     ChatComponent,
     ClientInfoComponent,
-    DialogWiindowComponent,
+    DialogWindowComponent,
     DialogsHistoryComponent,
     OperatorsComponent,
     PopupDialogComponent

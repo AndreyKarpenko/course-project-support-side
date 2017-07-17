@@ -9,6 +9,8 @@
 
 <md-tab-group *ngIf="dialogs.length">
   <md-tab *ngFor="let dialog of dialogs" [label]="dialog.clientName">
-    <app-dialog-window [dialog]="dialog"></app-dialog-window>
+    <app-dialog-window [dialog]="dialog"
+                       (dialogFinished)="onDialogFinished($event)">
+    </app-dialog-window>
   </md-tab>
 </md-tab-group>
