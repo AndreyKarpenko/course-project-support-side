@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
 
     this.storage.user = this.id;
 
-    this.api.registerUser(user).then(data => {
+    this.api.registerCustomer(user).then(data => {
       if (!data.success) {
         this.message = data.message;
         this.process = false;

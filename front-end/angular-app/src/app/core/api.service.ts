@@ -36,7 +36,7 @@ export class ApiService {
     return Promise.reject(error.message || error);
   }
 
-  registerUser(user) {
+  registerCustomer(user) {
     return this.http.post(serverUrl + '/api/signup', user )
       .toPromise()
       .then(this.extractData)
