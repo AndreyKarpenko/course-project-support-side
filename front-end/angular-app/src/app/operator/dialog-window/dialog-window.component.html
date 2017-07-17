@@ -1,9 +1,17 @@
 <h2>Dialog window</h2>
 
-<button (click)="onDialogFinished()"
-        md-raised-button color="warn">Emit client disconnection</button>
+<div class="button-wrapper">
+  <button (click)="onDialogFinished()"
+          md-raised-button color="warn">Emit client disconnection</button>
+</div>
 
-<app-chat [dialog]="dialog" (dialogFinished)="onDialogFinished($event)"></app-chat>
-<app-client-info [dialog]="dialog"></app-client-info>
-<app-dialogs-history *ngIf="dialog.clientPreviousDialogs"
-                     [dialog]="dialog"></app-dialogs-history>
+<div class="wrapper">
+  <div class="container">
+    <app-chat [dialog]="dialog" (dialogFinished)="onDialogFinished($event)"></app-chat>
+    <div class="info-block">
+      <app-client-info [dialog]="dialog"></app-client-info>
+      <app-dialogs-history *ngIf="dialog.clientPreviousDialogs"
+                           [dialog]="dialog"></app-dialogs-history>
+    </div>
+  </div>
+</div>
