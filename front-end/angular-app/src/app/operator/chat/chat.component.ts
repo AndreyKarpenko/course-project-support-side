@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output,
+        ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -6,6 +7,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  @ViewChild('messagesBlock') messagesBlockRef: ElementRef;
   @Input() dialog;
   @Output() dialogFinished = new EventEmitter();
 
@@ -30,6 +32,7 @@ export class ChatComponent implements OnInit {
       role: 'client',
       text: 'No way I\'ll ask you anything, tell me something instead',
     });
+    this.scrollMessagesBlockToBottom();
   }
 
   sendMessage(input, event?) {
@@ -42,6 +45,15 @@ export class ChatComponent implements OnInit {
       role: 'operator',
       text: input.value,
     });
+
     input.value = '';
+    this.scrollMessagesBlockToBottom();
+  }
+
+  private scrollMessagesBlockToBottom() {
+    setTimeout(() => {
+      this.messagesBlockRef.nativeElement.scrollTop =
+        this.messagesBlockRef.nativeElement.scrollHeight;
+    }, 0);
   }
 }
