@@ -26,7 +26,7 @@ export class SignupComponent implements OnInit {
 
   onRegisterSubmit() {
     this.process = true;
-    this.form.enable();
+    this.form.disable();
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
@@ -35,14 +35,12 @@ export class SignupComponent implements OnInit {
 
     this.storage.user = this.id;
 
-    this.api.registerUser(user).subscribe(data => {
+    this.api.registerUser(user).then(data => {
       if (!data.success) {
-        this.messageClass = 'alert alert-danger';
         this.message = data.message;
         this.process = false;
-        this.form.disable();
+        this.form.enable();
       } else {
-        this.messageClass = 'alert alert-success';
         this.id = data.id;
         this.message = data.message;
         this.process = true;
