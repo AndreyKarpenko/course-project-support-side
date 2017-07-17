@@ -13,20 +13,19 @@ export class NewOperatorComponent implements OnInit {
 
   form: FormGroup;
   message;
-  messageClass;
   process = false;
-  id = this.storage.user;
+  id;
 
   constructor (private  formBuilder: FormBuilder,
               private api: ApiService,
               private router: Router,
-              private storage:StorageService) {
+              private storage: StorageService) {
 
   }
 
   onRegisterSubmit() {
     this.process = true;
-    this.disableForm();
+    this.form.disable();
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
@@ -37,12 +36,10 @@ export class NewOperatorComponent implements OnInit {
 
     this.api.registerOperator(user).subscribe(data => {
       if (!data.success) {
-        this.messageClass = 'alert alert-danger';
         this.message = data.message;
         this.process = false;
-        this.enableForm();
+        this.form.enable();
       } else {
-        this.messageClass = 'alert alert-success';
         this.message = data.message;
         this.process = true;
         setTimeout(() => {
@@ -53,13 +50,14 @@ export class NewOperatorComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.id = this.storage.user;
     this.form = this.formBuilder.group({
       email: ['Andrey@i.ua', Validators.compose(
         [
           Validators.required,
           Validators.minLength(5),
           Validators.maxLength(30),
-          Validators.pattern(/^(\w|-)+@\w+\.[a-zA-Z]+$/i)
+          Validators.pattern(/^(\w|-)+@\w+(\.[a-zA-Z]+)+$/i)
         ]
       )],
       name: ['Andrey', Validators.compose(
@@ -85,25 +83,9 @@ export class NewOperatorComponent implements OnInit {
       )]
     }, {validator: this.matchingPasswords('password', 'confirm')})
   }
-
-  disableForm() {
-    this.form.controls['email'].disable();
-    this.form.controls['name'].disable();
-    this.form.controls['password'].disable();
-    this.form.controls['confirm'].disable();
-  }
-
-  enableForm() {
-    this.form.controls['email'].enable();
-    this.form.controls['name'].enable();
-    this.form.controls['password'].enable();
-    this.form.controls['confirm'].enable();
-  }
-
-
-  matchingPasswords(password, confirm ){
+  matchingPasswords(password, confirm ) {
     return (group: FormGroup) => {
-      if (group.controls[password].value === group.controls[confirm].value){
+      if (group.controls[password].value === group.controls[confirm].value) {
         return null;
       } else {
         return {'matchingPasswords': true}
