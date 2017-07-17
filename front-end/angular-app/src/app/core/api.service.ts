@@ -9,13 +9,6 @@ const serverUrl = 'http://localhost:8000';
 export class ApiService {
   constructor(private http: Http) {}
 
-  registerOperator(user) {
-    return this.http.post(serverUrl + '/api/operator', user )
-      .toPromise()
-      .then(this.extractData)
-      .catch(this.handleError);
-  }
-
   getDialogs() {
     return this.http.get(serverUrl + '/api/dialogs')
       .toPromise()
@@ -41,5 +34,12 @@ export class ApiService {
 
     console.error('API error occurred', error);
     return Promise.reject(error.message || error);
+  }
+
+  registerOperator(user) {
+    return this.http.post(serverUrl + '/api/operator', user )
+      .toPromise()
+      .then(this.extractData)
+      .catch(this.handleError);
   }
 }
