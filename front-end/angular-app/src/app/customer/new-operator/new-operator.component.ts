@@ -25,7 +25,7 @@ export class NewOperatorComponent implements OnInit {
 
   onRegisterSubmit() {
     this.process = true;
-    this.form.disable();
+    this.form.enable();
     const user = {
       email: this.form.get('email').value,
       name: this.form.get('name').value,
@@ -38,7 +38,7 @@ export class NewOperatorComponent implements OnInit {
       if (!data.success) {
         this.message = data.message;
         this.process = false;
-        this.form.enable();
+        this.form.disable();
       } else {
         this.message = data.message;
         this.process = true;
@@ -80,7 +80,8 @@ export class NewOperatorComponent implements OnInit {
         [
           Validators.required,
         ]
-      )]
+      )],
+      avatarURL: ''
     }, {validator: this.matchingPasswords('password', 'confirm')})
   }
   matchingPasswords(password, confirm ) {

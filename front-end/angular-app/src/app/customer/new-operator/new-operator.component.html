@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="name">Usename</label>
+    <label for="name">Username</label>
     <div [ngClass]="{'has-error': (form.controls.name.errors && form.controls.name.dirty),
                      'has-success': (!form.controls.name.errors)}">
       <input type="text" id="name" class="form-control" autocomplete="off"
@@ -34,9 +34,9 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="email">AvatarURL</label>
+    <label for="avatarURL">AvatarURL</label>
     <div>
-      <input type="text" formControlName="avatarURL"/>
+      <input type="text" id="avatarURL" formControlName="avatarURL"/>
     </div>
   </div>
   <div class="form-group">
