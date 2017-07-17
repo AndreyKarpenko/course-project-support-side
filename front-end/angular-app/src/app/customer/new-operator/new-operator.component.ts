@@ -34,7 +34,7 @@ export class NewOperatorComponent implements OnInit {
       id: this.id
     };
 
-    this.api.registerOperator(user).subscribe(data => {
+    this.api.registerOperator(user).then(data => {
       if (!data.success) {
         this.message = data.message;
         this.process = false;

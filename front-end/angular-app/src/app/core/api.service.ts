@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Http, Response} from '@angular/http';
 
-import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
 
 const serverUrl = 'http://localhost:8000';
@@ -11,7 +10,10 @@ export class ApiService {
   constructor(private http: Http) {}
 
   registerOperator(user) {
-    return this.http.post(serverUrl + '/api/operator', user ).map(res => res.json());
+    return this.http.post(serverUrl + '/api/operator', user )
+      .toPromise()
+      .then(this.extractData)
+      .catch(this.handleError);
   }
 
   getDialogs() {
