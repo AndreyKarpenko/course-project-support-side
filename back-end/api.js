@@ -178,49 +178,77 @@ function initialize(app) {
   });
 
   app.post('/api/signup', (req, res, next) => {
-    registration(req, res, next, false, 'customer');
+    if (req.body) {
+      if (!req.body.email || !req.body.name || !req.body.password) {
+        res.status(400).send('Empty Fields');
+      } else {
+        const newCustomer = new User({
+          role: 'customer',
+          email: req.body.email.toLowerCase(),
+          password: req.body.password,
+          name: req.body.name,
+          isActive: false,
+          paymentExpiresAt: Date.now(),
+          customerId: ObjectId(req.body.id),
+          token: sha1(this.email + 'ApriorIT' + new Date())
+        });
+        User.create(newCustomer, (err, user) => {
+          if (err) {
+            if (err.code === 11000) {
+              res.status(200).json({success: false, message: 'Email is already exist' });
+              return;
+            } else if (err.errors.email || err.errors.name || err.errors.password) {
+              res.status(400).send('Invalid field');
+              return;
+            } else {
+              next(err);
+              return;
+            }
+          }
+          res.status(200).json({success: true, message: 'Registration successfull', id: user._id});
+        })
+      }
+    } else {
+      res.status(400).send('Bad request');
+    }
   });
 
   app.post('/api/operator', (req, res, next) => {
-    registration(req, res, next, true, 'operator');
-  });
-}
-
-function registration(req, res, next, isActive, role) {
-  if (req.body) {
-    if (!req.body.email || !req.body.name || !req.body.password || req.body.avatarUrl) {
-      res.status(400).send('Empty Fields');
-    } else {
-      const newCustomer = new User({
-        role: role,
-        email: req.body.email.toLowerCase(),
-        password: req.body.password,
-        name: req.body.name,
-        isActive: isActive,
-        paymentExpiresAt: Date.now(),
-        customerId: ObjectId(req.body.id),
-        avatarUrl:req.body.avatarUrl,
-        token: sha1(this.email + 'ApriorIT' + new Date())
-      });
-      User.create(newCustomer, (err, user) => {
-        if (err) {
-          if (err.code === 11000) {
-            res.status(200).json({success: false, message: 'Email is already exist' });
-            return;
-          } else if (err.errors.email || err.errors.name || err.errors.password) {
-            res.status(400).send('Invalid field');
-            return;
-          } else {
-            next(err);
-            return;
+    if (req.body) {
+      if (!req.body.email || !req.body.name || !req.body.password || !req.body.avatarUrl) {
+        res.status(400).send('Empty Fields');
+      } else {
+        const newCustomer = new User({
+          role: 'operator',
+          email: req.body.email.toLowerCase(),
+          password: req.body.password,
+          name: req.body.name,
+          isActive: true,
+          paymentExpiresAt: Date.now(),
+          customerId: ObjectId(req.body.id),
+          avatarUrl: req.body.avatarUrl,
+          token: sha1(this.email + 'ApriorIT' + new Date())
+        });
+        User.create(newCustomer, (err, user) => {
+          if (err) {
+            if (err.code === 11000) {
+              res.status(200).json({success: false, message: 'Email is already exist' });
+              return;
+            } else if (err.errors.email || err.errors.name || err.errors.password) {
+              res.status(400).send('Invalid field');
+              return;
+            } else {
+              next(err);
+              return;
+            }
           }
-        }
-        res.status(200).json({success: true, message: 'Registration successfull', id: user._id});
-      })
+          res.status(200).json({success: true, message: 'Registration successfull', id: user._id});
+        })
+      }
+    } else {
+      res.status(400).send('Bad request');
     }
-  } else {
-    res.status(400).send('Bad request');
-  }
+  });
 }
 
 function checkAuth(req, res) {
