@@ -5,6 +5,8 @@ import {MdButtonModule, MdDialogModule, MdInputModule,
         MdProgressBarModule, MdSelectModule, MdTabsModule} from '@angular/material';
 import {AccordionModule} from 'primeng/components/accordion/accordion';
 
+import {OperatorRoutingModule} from './operator-routing.module';
+
 import {ChatComponent} from './chat/chat.component';
 import {ClientInfoComponent} from './client-info/client-info.component';
 import {DialogWindowComponent} from './dialog-window/dialog-window.component';
@@ -33,7 +35,8 @@ import {PopupDialogComponent} from './dialog-window/popup-dialog.component';
     MdInputModule,
     MdProgressBarModule,
     MdSelectModule,
-    MdTabsModule
+    MdTabsModule,
+    OperatorRoutingModule
   ]
 })
 export class OperatorsModule {

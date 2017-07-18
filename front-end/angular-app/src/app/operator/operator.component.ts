@@ -69,7 +69,6 @@ export class OperatorsComponent implements OnInit {
     this.dialogs.forEach((dialog, index) => {
       dialog.dialogIndex = index;
     });
-    console.log(this.dialogs);
   }
 
   private deepCopy(object) {
