@@ -6,6 +6,7 @@ const path = require('path');
 const socketIo = require('socket.io');
 
 const db = require('./db');
+require('./task-scheduler')();
 
 const app = express();
 const httpServer = http.Server(app);
